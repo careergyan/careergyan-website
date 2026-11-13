@@ -148,3 +148,10 @@ This applies to the tables, the paragraphs and the "at a glance" boxes. Counts t
 
 **Not changed:** the workshop registration page. "₹1,449 + GST" is the actual fee charged at checkout, not an estimate, so it gets no *.
 
+
+## 2026-11-13 changes (requested)
+- **Footer:** the "Germany Calculator" link (qckloans.com) was removed from the Resources column on every page.
+- **Check Eligibility buttons:** every button (header, mobile menu, hero sections, closing banners, workshop page) now opens https://eligibility.careergyan.co/. The site's own `/eligibility` page still exists and is still in the sitemap, but no button points to it any more.
+- **Workshop registration:** once payment is confirmed, the success box shows "Add to Google Calendar". It opens Google Calendar with the event already filled in: Study in Europe Workshop 2027, 21 Nov 2027, 11:00 AM – 1:00 PM IST, with details and contact numbers. Next to it is "Apple / Outlook (.ics)", which downloads the event with a reminder 1 day before.
+  - A website can't put an event into someone's Google Calendar without them clicking. One click on the button adds it.
+  - The event has no venue address yet; set `W_VENUE` in the build step to add one.

@@ -2359,3 +2359,13 @@ textarea.el-in{min-height:110px;resize:vertical}
 .cf-badge .ic{color:var(--blue)}
 @media(max-width:1024px){.cf-grid{grid-template-columns:1fr;gap:28px}}
 @media(max-width:640px){.cg-wonder{padding:24px 22px}.cg-wonder .btn{width:100%}.gt{font-size:14px}.gt th,.gt td{padding:11px 14px}}
+
+/* (2026-11-13) workshop registration: add-to-calendar buttons on the payment-confirmed screen */
+.wsp .cal-add{margin-top:22px;padding-top:20px;border-top:1px solid #E3E8F4}
+.wsp .cal-add-t{font-weight:700;color:#0B1F4B;margin:0 0 12px;font-size:15px}
+.wsp .cal-add-b{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.wsp .cal-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:999px;border:1px solid #D5DEF2;background:#fff;color:#0B1F4B;font-weight:700;font-size:14px;text-decoration:none;transition:background .2s,border-color .2s}
+.wsp .cal-btn:hover{border-color:#1A56DB;color:#1A56DB}
+.wsp .cal-btn.cal-g{background:#1A56DB;border-color:#1A56DB;color:#fff}
+.wsp .cal-btn.cal-g:hover{background:#1546B8;color:#fff}
+@media(max-width:480px){.wsp .cal-btn{width:100%;justify-content:center}}
