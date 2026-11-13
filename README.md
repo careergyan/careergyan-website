@@ -114,7 +114,7 @@ Then go to Project → Settings → Domains → add `careergyan.co` and `www.car
 2. In the new file, update these in `<head>`: `<title>`, `<meta name="description">`, `<link rel="canonical">`, the `og:*`/`twitter:*` tags and the JSON-LD (breadcrumb name and URL).
 3. On `<body>`, set `data-path` to the new clean URL. `data-route` tells the shared script which view to run. Pages built by the script need a route it knows (see `route()` in `assets/js/main.js`). For a hand-written page, copy `about-us.html`, give it a new `data-route`, and replace the `<section class="page active" …>` content.
 4. Add the URL to `sitemap.xml` and add links to it from the menus. Menu links are generated in `assets/js/main.js` (`build()`). The same links are also pre-rendered into every HTML file for search engines, so update both.
-5. If you change `style.css` or `main.js`, bump `?v=20261111` in every page. Assets are cached for a year.
+5. If you change `style.css` or `main.js`, bump `?v=20261113` in every page. Assets are cached for a year.
 
 ## Change the domain
 
