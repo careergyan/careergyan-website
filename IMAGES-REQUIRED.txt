@@ -1,5 +1,5 @@
 # Every /images/... file the pages use (collected from every rendered page).
-# All 78 are included in this project's images/ folder (compressed, same names) and load from there.
+# All 81 are included in this project's images/ folder (compressed, same names) and load from there.
 # URL-encoded names (%20 etc.) are files with spaces in their names.
 /images/about/founder_img.png
 /images/about/our_mission.png
@@ -12,8 +12,11 @@
 /images/careergallery/gallery-6.png
 /images/careergallery/gallery-7.png
 /images/careergallery/gallery-8.png
+/images/content/blog/ChatGPT%20Image%20Aug%206%2C%202026%2C%2012_13_40%20PM.png
 /images/content/blog/ChatGPT%20Image%20Aug%206,%202026,%2012_13_40%20PM.png
+/images/content/blog/ChatGPT%20Image%20Jul%2027%2C%202026%2C%2004_35_23%20PM.png
 /images/content/blog/ChatGPT%20Image%20Jul%2027,%202026,%2004_35_23%20PM.png
+/images/content/blog/ChatGPT%20Image%20Jul%2030%2C%202026%2C%2005_36_50%20PM.png
 /images/content/blog/ChatGPT%20Image%20Jul%2030,%202026,%2005_36_50%20PM.png
 /images/content/events/BSK%20meetup.png
 /images/content/events/Coffee%20meet%20up.png

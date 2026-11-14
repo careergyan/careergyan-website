@@ -152,7 +152,7 @@ This applies to the tables, the paragraphs and the "at a glance" boxes. Counts t
 ## 2026-11-13 changes (requested)
 - **Footer:** the "Germany Calculator" link (qckloans.com) was removed from the Resources column on every page.
 - **Check Eligibility buttons:** every button (header, mobile menu, hero sections, closing banners, workshop page) now opens https://eligibility.careergyan.co/. The site's own `/eligibility` page still exists and is still in the sitemap, but no button points to it any more.
-- **Workshop registration:** once payment is confirmed, the success box shows "Add to Google Calendar". It opens Google Calendar with the event already filled in: Study in Europe Workshop 2027, 21 Nov 2027, 11:00 AM – 1:00 PM IST, with details and contact numbers. Next to it is "Apple / Outlook (.ics)", which downloads the event with a reminder 1 day before.
+- **Workshop registration:** once payment is confirmed, the success box shows "Add to Google Calendar". It opens Google Calendar with the event already filled in: Study in Europe Workshop 2027, Saturday 21 Nov 2026, 11:00 AM – 1:00 PM IST, with details and contact numbers. Next to it is "Apple / Outlook (.ics)", which downloads the event with a reminder 1 day before.
   - A website can't put an event into someone's Google Calendar without them clicking. One click on the button adds it.
   - The event has no venue address yet; set `W_VENUE` in the build step to add one.
 
@@ -162,3 +162,9 @@ This applies to the tables, the paragraphs and the "at a glance" boxes. Counts t
 - Austria is in the header and mobile Countries menus, the footer country list, All Countries (filter: Europe), the home and Germany-office destination grids, the sitemap and `vercel.json` (`/study-in-austria.php` redirects to the clean URL).
 - Every "18 destinations" count now reads 19, and the All Countries stat counts the list, so it updates by itself when a country is added.
 - There is no live Austria page, so its title and description are new (see `meta.py` notes in VERIFICATION.md).
+
+## Workshop date and Blog — 2026-11-14
+
+- The Study in Europe Workshop is on **Saturday, 21 November 2026** (the original file said Sunday, 21 November 2027). Fixed on the home page, the workshop popup, the Workshops page, the registration page (dates, event schema, Google Calendar and .ics). The workshop's name, "Study in Europe Workshop 2027" (for the 2027 intake), is unchanged.
+- New **Blog**: `/blog` (`blog.html`) lists the posts with topic filters; each post is its own page, `/blog-<slug>` (`blog-<slug>.html`), with BlogPosting schema. Blog is linked in the header, mobile menu and footer (Resources), and the three "Latest study abroad guides" cards on the home page now open their posts.
+- The six posts are **sample content** written for the launch. To add or change posts, edit `tools/blog_data.py` (title, category, date, image, excerpt, body) and rebuild; prices follow the site rule (currency first, * at the end).

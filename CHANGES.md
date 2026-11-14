@@ -84,6 +84,8 @@
 - Country page: advantage cards with text when the country has them (Austria)
 - Country page: student cities when the country has them (Austria)
 - Country page: country photo in the closing banner when set
+- Router: register the blog list and the blog post pages
+- Nav: highlight Blog on blog pages
 - New code block (Supabase + eligibility review/results), clearly marked
 - All script-built images decode off the main thread
 
@@ -107,6 +109,9 @@
 @@ -38 +39 @@
 -  {s:'bangalore',n:'Bangalore',route:'#/locations/bangalore'},
 +  {s:'bangalore',n:'Bangalore',route:'abroad-education-consultants-in-bangalore.html'},
+@@ -56 +57 @@
+-  {t:'Study in Europe Workshop 2027',d:'Sunday, 21 November 2027',tm:'11:00 AM – 1:00 PM + Live Q&A',l:'In-person workshop · Venue to be announced',m:'',img:'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1400&q=85',u:'study-in-europe-workshop-2027',city:'Workshop',kind:'Workshop',page:'study-in-europe-workshop-2027.html'},
++  {t:'Study in Europe Workshop 2027',d:'Saturday, 21 November 2026',tm:'11:00 AM – 1:00 PM + Live Q&A',l:'In-person workshop · Venue to be announced',m:'',img:'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1400&q=85',u:'study-in-europe-workshop-2027',city:'Workshop',kind:'Workshop',page:'study-in-europe-workshop-2027.html'},
 @@ -93 +94 @@
 -  trust:function(){return '<div class="trust"><div class="trust-item"><small>Membership</small><div class="logos"><img src="'+IMG+'home/qualityabroad/EAIE.png" alt="EAIE" loading="lazy"><img src="'+IMG+'home/qualityabroad/NAFSA.png" alt="NAFSA" loading="lazy"></div></div><div class="trust-item"><small>Accreditation</small><div class="logos"><img src="'+IMG+'germany/logos/icef-accredited-logo.png" alt="ICEF Accredited" loading="lazy"></div></div></div>'},
 +  trust:function(){return '<div class="trust"><div class="trust-item"><small>Membership</small><div class="logos"><img decoding="async" src="'+IMG+'home/qualityabroad/EAIE.png" alt="EAIE" loading="lazy"><img decoding="async" src="'+IMG+'home/qualityabroad/NAFSA.png" alt="NAFSA" loading="lazy"></div></div><div class="trust-item"><small>Accreditation</small><div class="logos"><img decoding="async" src="'+IMG+'germany/logos/icef-accredited-logo.png" alt="ICEF Accredited" loading="lazy"></div></div></div>'},
@@ -207,7 +212,10 @@
 +  return '<div class="legal-page"><a class="legal-back" href="index.html">← Back to CareerGyan</a>'+body+'<p class="legal-copy">© 2026 Powered and secured by <a href="https://idontblabber.com" target="_blank" rel="noopener">I Don&#39;t Blabber</a></p></div>';
 @@ -228 +240 @@
 -var STATIC={'':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','workshop':'events','workshop/event':'home','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
-+var STATIC={'not-found':'notfound','':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','workshop':'events','workshop/event':'home','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
++var STATIC={'not-found':'notfound','blog':'blog','blog-study-abroad-loan-mistakes':'blogpost','blog-pharmacy-abroad-licensing-careers':'blogpost','blog-post-study-work-visa-germany-spain-italy-ireland':'blogpost','blog-why-study-in-austria':'blogpost','blog-ielts-toefl-pte-duolingo-which-test':'blogpost','blog-germany-blocked-account-2026':'blogpost','':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','workshop':'events','workshop/event':'home','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
+@@ -230 +242 @@
+-var NAVKEY={about:'about',arts:'course',workshop:'events',bangalore:'location',contact:'contact'};
++var NAVKEY={blog:'blog',blogpost:'blog',about:'about',arts:'course',workshop:'events',bangalore:'location',contact:'contact'};
 @@ -234 +246 @@
 -  var path=decodeURIComponent(location.hash.replace(/^#\/?/,'')).replace(/\/$/,'').toLowerCase();
 +  var path=decodeURIComponent(document.body.getAttribute('data-route')||'').replace(/\/$/,'').toLowerCase();
@@ -500,7 +508,7 @@
 @@ -1142 +1170 @@
 -  var h=location.hash.replace(/^#\/?/,'');
 +  var h=document.body.getAttribute('data-route')||'';
-@@ -1147,0 +1176,208 @@
+@@ -1147,0 +1176,213 @@
 +
 +/* =====================================================================
 +   ADDED (2026-11-11): Supabase saving for the enquiry forms + eligibility
@@ -709,9 +717,14 @@
 +}
 +function cgWhy(cards){var ic=['award','users','globe','shield'];return '<div class="cg4">'+cards.map(function(c,i){return '<div class="cg rv" style="--d:'+(i*.08)+'s"><span class="hf-ic">'+icon(ic[i%4])+'</span><h3>'+esc(c[0])+'</h3><p>'+esc(c[1])+'</p></div>'}).join('')+'</div>'}
 +
-@@ -1150 +1385,0 @@
++/* (2026-11-14) blog list: topic filter */
++document.addEventListener('click',function(e){var b=e.target.closest('[data-bfilter]');if(!b)return;var c=b.getAttribute('data-bfilter');
++  document.querySelectorAll('[data-bfilter]').forEach(function(x){x.classList.toggle('active',x===b)});
++  document.querySelectorAll('#blogGrid .bcard').forEach(function(a){a.classList.toggle('hide',c!=='all'&&a.getAttribute('data-bcat')!==c)});});
++
+@@ -1150 +1390,0 @@
 -window.addEventListener('hashchange',route);
-@@ -1158 +1393 @@
+@@ -1158 +1398 @@
 -  var PAGE='workshop-registration.html';
 +  var PAGE='workshops/workshop-registration.html';
 ```

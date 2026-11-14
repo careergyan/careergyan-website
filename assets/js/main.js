@@ -57,7 +57,7 @@ var OFFICES=[
 ];
 var VOFFICES=OFFICES.filter(function(o){return o.loc!=='bahrain'});
 var EVENTS=[
-  {t:'Study in Europe Workshop 2027',d:'Sunday, 21 November 2027',tm:'11:00 AM – 1:00 PM + Live Q&A',l:'In-person workshop · Venue to be announced',m:'',img:'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1400&q=85',u:'study-in-europe-workshop-2027',city:'Workshop',kind:'Workshop',page:'study-in-europe-workshop-2027.html'},
+  {t:'Study in Europe Workshop 2027',d:'Saturday, 21 November 2026',tm:'11:00 AM – 1:00 PM + Live Q&A',l:'In-person workshop · Venue to be announced',m:'',img:'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1400&q=85',u:'study-in-europe-workshop-2027',city:'Workshop',kind:'Workshop',page:'study-in-europe-workshop-2027.html'},
   {t:'Career Gyan Abroad Education Fair – Intake 2026',d:'Sunday, 12 October 2025',tm:'12:00 AM',l:'The Park , MG Road , Bangalore',m:'https://maps.app.goo.gl/48nwYCnJNvaxDgnH7',img:'intake-2026.png',u:'career-gyan-abroad-education-fair',city:'Bangalore'},
   {t:'Germany’s Chancekarte Workshop - Bangalore',d:'Sunday, 12 October 2025',tm:'10:00 AM',l:'The Park Bangalore',m:'https://maps.app.goo.gl/48nwYCnJNvaxDgnH7',img:'germany-workshop.png',u:'abroad-education-fair-intake-2026',city:'Bangalore'},
   {t:'Career Gyan Abroad Education Workshop Your Gateway to the 2026 Intake',d:'Saturday, 30 August 2025',tm:'10:00 AM',l:'Kenko Asia, Bahrain',m:'https://share.google/fsGTogexzC3dip1Zy',img:'study-bahrain-re.jpg',u:'careergyan-study-abroad-expo-bahrain-2025',city:'Bahrain'},
@@ -240,9 +240,9 @@ function legalDocument(kind){
 }
 
 /* ---------- ROUTER ---------- */
-var STATIC={'not-found':'notfound','':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','workshop':'events','workshop/event':'home','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
+var STATIC={'not-found':'notfound','blog':'blog','blog-study-abroad-loan-mistakes':'blogpost','blog-pharmacy-abroad-licensing-careers':'blogpost','blog-post-study-work-visa-germany-spain-italy-ireland':'blogpost','blog-why-study-in-austria':'blogpost','blog-ielts-toefl-pte-duolingo-which-test':'blogpost','blog-germany-blocked-account-2026':'blogpost','':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','workshop':'events','workshop/event':'home','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
 var TITLES={home:'Abroad Education Consultants in India - Career Gyan',about:'About Career Gyan | Your Trusted Study Abroad Guide',arts:'Arts – Study Abroad Programs | Career Gyan',events:'Upcoming Study Abroad Fairs & Events | Career Gyan',bangalore:'Best Study Abroad Consultants in Bangalore | Career Gyan Bangalore',contact:'Contact Career Gyan | Get Study Abroad Assistance',eligibility:'Study Abroad Eligibility Checker | Career Gyan'};
-var NAVKEY={about:'about',arts:'course',workshop:'events',bangalore:'location',contact:'contact'};
+var NAVKEY={blog:'blog',blogpost:'blog',about:'about',arts:'course',workshop:'events',bangalore:'location',contact:'contact'};
 var current=null;
 
 function route(){
@@ -1383,6 +1383,11 @@ function cgJobs(x,d){
   return h;
 }
 function cgWhy(cards){var ic=['award','users','globe','shield'];return '<div class="cg4">'+cards.map(function(c,i){return '<div class="cg rv" style="--d:'+(i*.08)+'s"><span class="hf-ic">'+icon(ic[i%4])+'</span><h3>'+esc(c[0])+'</h3><p>'+esc(c[1])+'</p></div>'}).join('')+'</div>'}
+
+/* (2026-11-14) blog list: topic filter */
+document.addEventListener('click',function(e){var b=e.target.closest('[data-bfilter]');if(!b)return;var c=b.getAttribute('data-bfilter');
+  document.querySelectorAll('[data-bfilter]').forEach(function(x){x.classList.toggle('active',x===b)});
+  document.querySelectorAll('#blogGrid .bcard').forEach(function(a){a.classList.toggle('hide',c!=='all'&&a.getAttribute('data-bcat')!==c)});});
 
 build();initHome();initMenus();initForms();initEligibility();initOffDD();initContactFAQ();initWAChannel();initEventPopup();
 try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e){}

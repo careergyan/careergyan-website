@@ -8,6 +8,7 @@ Every page is a real HTML file with its own URL, title, description, canonical, 
 /                       index.html (home)
 /about-us               about-us.html
 /study-in-uk …          study-in-*.html  (19 countries)
+/blog, /blog-…            blog.html, blog-*.html (sample posts)
 /course-arts …          course-*.html    (7 courses)
 /workshops, /contact, /eligibility, /student-loan, /all-countries
 /workshops/workshop-registration   workshops/workshop-registration.html (uses <base href="../">)

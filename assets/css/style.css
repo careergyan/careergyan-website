@@ -2386,3 +2386,66 @@ textarea.el-in{min-height:110px;resize:vertical}
 .dd-grid{grid-template-rows:repeat(10,auto)}
 #m-countries{grid-template-rows:repeat(10,auto)}
 #m-countries>a:last-child{grid-row:11}
+
+/* (2026-11-14) blog list + post pages */
+.blog-filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px}
+.blog-filters button{border:1.5px solid var(--line,#E3E8F2);background:#fff;color:var(--ink,#0B1F4B);font:600 14px/1 inherit;font-family:inherit;padding:11px 18px;border-radius:999px;cursor:pointer;transition:.2s}
+.blog-filters button:hover{border-color:#1A56DB;color:#1A56DB}
+.blog-filters button.active{background:#1A56DB;border-color:#1A56DB;color:#fff}
+.blog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+.bcard{background:#fff;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(11,31,75,.06);transition:transform .25s,box-shadow .25s}
+.bcard:hover{transform:translateY(-4px)}
+.bcard>a{display:flex;flex-direction:column;height:100%;color:inherit;text-decoration:none}
+.bcard figure{margin:0;aspect-ratio:16/10;overflow:hidden;background:linear-gradient(160deg,#16357A,#0A1C46)}
+.bcard img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.bcard:hover img{transform:scale(1.04)}
+.bcard-b{padding:22px 24px 24px;display:flex;flex-direction:column;gap:10px;flex:1}
+.bcard .tag{align-self:flex-start;background:#EAF1FF;color:#1A56DB;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:6px 11px;border-radius:999px}
+.bcard h3{font-size:19px;line-height:1.3;letter-spacing:-.01em;color:var(--ink,#0B1F4B)}
+.bcard p{color:var(--muted,#5B6B8C);font-size:15px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.bpmeta{margin-top:auto;padding-top:6px;display:flex;flex-wrap:wrap;gap:16px;color:var(--muted,#5B6B8C);font-size:13px}
+.bpmeta span,.post-meta span{display:inline-flex;align-items:center;gap:6px}
+.bpmeta .ic,.post-meta .ic{width:15px;height:15px}
+.bcard.hide{display:none}
+.post-h1{font-size:clamp(30px,4.2vw,52px)!important;max-width:900px}
+.post-meta{display:flex;flex-wrap:wrap;gap:22px;color:rgba(255,255,255,.85);font-size:15px;margin-top:14px}
+.post-body{max-width:780px;margin:0 auto;color:#33415F;font-size:17px;line-height:1.75}
+.post-body .post-lead{font-size:20px;line-height:1.6;color:var(--ink,#0B1F4B);font-weight:500;margin-bottom:24px}
+.post-body p{margin:0 0 18px}
+.post-body h2{font-size:clamp(22px,2.4vw,28px);letter-spacing:-.02em;color:var(--ink,#0B1F4B);margin:38px 0 12px}
+.post-body ul,.post-body ol{margin:0 0 20px;padding-left:22px}
+.post-body li{margin:0 0 10px}
+.post-body a:not(.btn){color:#1A56DB;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.post-body .tbl-wrap{overflow-x:auto;margin:10px 0 24px;border-radius:16px;border:1px solid #E3E8F2}
+.post-body table{width:100%;border-collapse:collapse;font-size:15px;min-width:520px}
+.post-body th{background:#0B1F4B;color:#fff;text-align:left;padding:13px 16px;font-weight:600}
+.post-body td{padding:13px 16px;border-top:1px solid #E3E8F2;vertical-align:top}
+.post-body tr:nth-child(even) td{background:#F6F8FC}
+.post-foot{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin-top:40px;padding-top:28px;border-top:1px solid #E3E8F2}
+.post-foot a.btn{text-decoration:none}
+.hx-art{position:relative}
+.hx-art h3 a{color:inherit;text-decoration:none}
+.hx-art h3 a::after{content:"";position:absolute;inset:0;z-index:2}
+@media(max-width:1024px){.blog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.blog-grid{grid-template-columns:minmax(0,1fr)}.post-body{font-size:16px}.post-body .post-lead{font-size:18px}}
+
+/* (2026-11-14) header: the logo never shrinks or distorts (the extra "Blog" link made the row tight) */
+.hdr .logo{flex:0 0 auto}
+.hdr .logo img{width:auto;max-width:none;flex-shrink:0;object-fit:contain}
+@media(min-width:1281px){.hdr .nav{gap:0}.hdr .nav-link{padding:10px 10px}}
+
+@media(min-width:641px) and (max-width:1024px){.blog-rel .bcard:nth-child(3){display:none}}
+.blog-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:34px}
+.blog-head .sec-head{margin-bottom:0}
+.blog-head .blog-filters{margin-bottom:0}
+.blog-mag .hx-art.big{min-height:560px}
+.blog-mag .hx-art{background:#fff;box-shadow:var(--shadow);border:1px solid rgba(11,31,75,.06)}
+.blog-mag .hx-art.big{background:#0E1B45;border:0}
+.blog-mag .hx-mag-side .hx-art-b{justify-content:center}
+.blog-mag .bpmeta{padding-top:2px}
+.bpmeta.bp-dark{color:rgba(255,255,255,.8)}
+.blog-mag .hx-art figure img{transition:transform .6s}
+@media(max-width:1024px){.blog-mag .hx-art.big{min-height:460px}}
+@media(max-width:640px){.blog-mag .hx-art.big{min-height:440px}.blog-mag .hx-art.big::after{background:linear-gradient(180deg,rgba(11,22,56,.05) 10%,rgba(11,22,56,.95) 62%)}}
+
+@media(max-width:640px){.post-foot a.btn{width:100%;justify-content:center}}
