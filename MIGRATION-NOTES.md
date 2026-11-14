@@ -81,7 +81,7 @@ The filter has a "Search a university or program" box and a chip per country sho
 - 11 entries have no website link.
 
 ## Country pages: details from the live site (2026-11-12, requested)
-Done for all 18 country pages, from the page text the client supplied. The live text was added word for word, in our design. The hero stats, the "at a glance" box and the downloadable checklists were added in the 2026 file and are kept exactly as they were. What was added:
+Done for all 18 original country pages, from the page text the client supplied (Austria, the 19th, uses the approved Austria content). The live text was added word for word, in our design. The hero stats, the "at a glance" box and the downloadable checklists were added in the 2026 file and are kept exactly as they were. What was added:
 - **Why study:** the full paragraphs. Ours were shortened.
 - **Prompt:** "Wondering if <country> is the right choice for you? Let our experts guide you…" with "Talk to an Expert".
 - **Top courses:** the intro paragraph, plus the 6th card "Others" (it links to Contact).
@@ -133,7 +133,7 @@ The short "Good to know" summary cards were removed on these pages, because the 
 
 
 ## Price format (2026-11-12, requested)
-Every price on the 18 country pages follows one rule:
+Every price on the 19 country pages follows one rule:
 - **Currency on every amount, written before it:** "EUR 300 to 800 per month" becomes "EUR 300 to EUR 800* per month", and "450 – 1,800 AUD" becomes "AUD 450 – AUD 1,800*".
 - **Table columns:** where a column header names the currency, e.g. "Cost in CAD" or "Salary Range (HUF)", that currency is added to each amount in the column.
 - **An * at the end of every price.** For a range it goes after the last amount.
@@ -155,3 +155,10 @@ This applies to the tables, the paragraphs and the "at a glance" boxes. Counts t
 - **Workshop registration:** once payment is confirmed, the success box shows "Add to Google Calendar". It opens Google Calendar with the event already filled in: Study in Europe Workshop 2027, 21 Nov 2027, 11:00 AM – 1:00 PM IST, with details and contact numbers. Next to it is "Apple / Outlook (.ics)", which downloads the event with a reminder 1 day before.
   - A website can't put an event into someone's Google Calendar without them clicking. One click on the button adds it.
   - The event has no venue address yet; set `W_VENUE` in the build step to add one.
+
+## Austria (19th destination) — 2026-11-14
+
+- New page `/study-in-austria` (`study-in-austria.html`), built from the content the client approved (the single-file HTML / PDF), in the same country-page design as the other 18.
+- Austria is in the header and mobile Countries menus, the footer country list, All Countries (filter: Europe), the home and Germany-office destination grids, the sitemap and `vercel.json` (`/study-in-austria.php` redirects to the clean URL).
+- Every "18 destinations" count now reads 19, and the All Countries stat counts the list, so it updates by itself when a country is added.
+- There is no live Austria page, so its title and description are new (see `meta.py` notes in VERIFICATION.md).

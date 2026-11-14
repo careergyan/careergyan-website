@@ -104,6 +104,11 @@
       "permanent": true
     },
     {
+      "source": "/study-in-austria.php",
+      "destination": "/study-in-austria",
+      "permanent": true
+    },
+    {
       "source": "/course.php",
       "has": [
         {
