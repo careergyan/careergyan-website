@@ -2449,3 +2449,17 @@ textarea.el-in{min-height:110px;resize:vertical}
 @media(max-width:640px){.blog-mag .hx-art.big{min-height:440px}.blog-mag .hx-art.big::after{background:linear-gradient(180deg,rgba(11,22,56,.05) 10%,rgba(11,22,56,.95) 62%)}}
 
 @media(max-width:640px){.post-foot a.btn{width:100%;justify-content:center}}
+
+/* (2026-11-16) country downloads: document viewer */
+a.dl-file{text-decoration:none;color:inherit}
+.docv{position:fixed;inset:0;z-index:2000;background:rgba(8,16,40,.78);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .25s}
+.docv.open{opacity:1;pointer-events:auto}
+.docv-bar{display:flex;align-items:center;gap:12px;padding:14px 22px;background:#0B1F4B;color:#fff;flex:none}
+.docv-bar b{flex:1;min-width:0;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.docv-bar .btn{flex:none}
+.docv-x{flex:none;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-size:22px;line-height:1;cursor:pointer}
+.docv-x:hover{background:rgba(255,255,255,.12)}
+.docv-body{flex:1;overflow:auto;padding:26px 16px 40px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.docv-body img{width:100%;max-width:860px;height:auto;background:#fff;border-radius:6px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6)}
+@media(max-width:640px){.docv-bar{padding:10px 12px;gap:8px}.docv-bar b{font-size:13px}.docv-bar .btn{padding:10px 14px;font-size:13px}.docv-body{padding:12px 8px 30px}}
+

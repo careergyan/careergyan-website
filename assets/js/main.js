@@ -1064,9 +1064,12 @@ function countryFAQs(k){
 
 /* ---------- country page: document + visa checklists (50 / 50) ---------- */
 function dlName(k,t){var c=CPAGE[k].name.replace(/\s+/g,'-');return 'CareerGyan-'+c+(t==='admission'?'-University-Admission-Checklist.pdf':'-Student-Visa-Checklist.pdf')}
+var DLF={"uk":{"f":"UK_Education_Document_Checklist.pdf","img":["UK_Education_Document_Checklist-p-1.jpg"],"label":"UK Education Document Checklist","kb":34},"usa":{"f":"USA_Education_Document_Checklist.pdf","img":["USA_Education_Document_Checklist-p-1.jpg"],"label":"USA Education Document Checklist","kb":86},"germany":{"f":"Germany_Education_Document_Checklist.pdf","img":["Germany_Education_Document_Checklist-p-1.jpg"],"label":"Germany Education Document Checklist","kb":89},"ireland":{"f":"Ireland_Education_Document_Checklist.pdf","img":["Ireland_Education_Document_Checklist-p-1.jpg"],"label":"Ireland Education Document Checklist","kb":32},"italy":{"f":"Italy_Education_Document_Checklist.pdf","img":["Italy_Education_Document_Checklist-p-1.jpg"],"label":"Italy Education Document Checklist","kb":32},"netherlands":{"f":"Netherlands_Education_Document_Checklist.pdf","img":["Netherlands_Education_Document_Checklist-p-1.jpg"],"label":"Netherlands Education Document Checklist","kb":29},"australia":{"f":"Australia_Document_Checklist.pdf","img":["Australia_Document_Checklist-p-1.jpg"],"label":"Australia Document Checklist","kb":90},"latvia":{"f":"Baltic_Country_Education_Document_Checklist.pdf","img":["Baltic_Country_Education_Document_Checklist-p-1.jpg"],"label":"Baltic Country Education Document Checklist","kb":31},"lithuania":{"f":"Baltic_Country_Education_Document_Checklist.pdf","img":["Baltic_Country_Education_Document_Checklist-p-1.jpg"],"label":"Baltic Country Education Document Checklist","kb":31},"canada":{"f":"Study_in_Canada_Career_Gyan.pdf","img":["Study_in_Canada_Career_Gyan-p-1.jpg"],"label":"Study in Canada \u2013 Career Gyan","kb":254},"poland":{"f":"Study_in_Poland_Career_Gyan.pdf","img":["Study_in_Poland_Career_Gyan-p-1.jpg"],"label":"Study in Poland \u2013 Career Gyan","kb":774},"sweden":{"f":"Study_in_Sweden_Career_Gyan.pdf","img":["Study_in_Sweden_Career_Gyan-p-1.jpg"],"label":"Study in Sweden \u2013 Career Gyan","kb":788},"finland":{"f":"Study_in_Finland_Career_Gyan.pdf","img":["Study_in_Finland_Career_Gyan-p-1.jpg"],"label":"Study in Finland \u2013 Career Gyan","kb":745}};
 function dlSection(k,d){
-  var n=d.name;
+  var n=d.name,F=DLF[k];
   function card(t,title,desc,ic,dark){
+    if(F)return '<div class="dlc'+(dark?' dark':'')+' rv"><span class="hf-ic">'+icon(ic)+'</span><h3>'+title+'</h3><p>'+desc+'</p>'+
+      '<a class="dl-file" href="downloads/'+F.f+'" target="_blank" rel="noopener" data-view="'+k+'"><span class="dl-pdf">PDF</span><span class="dl-meta"><b>'+F.label+'</b><small>'+F.img.length+' page'+(F.img.length>1?'s':'')+' · Click to view &amp; download</small></span><span class="dl-go">'+icon('download')+'</span></a></div>';
     return '<div class="dlc'+(dark?' dark':'')+' rv"><span class="hf-ic">'+icon(ic)+'</span><h3>'+title+'</h3><p>'+desc+'</p>'+
       '<button class="dl-file" type="button" data-dl="'+k+'|'+t+'"><span class="dl-pdf">PDF</span><span class="dl-meta"><b>'+dlName(k,t)+'</b><small>'+(t==='admission'?d.docs.length:d.visa.length)+' items · Click to download</small></span><span class="dl-go">'+icon('download')+'</span></button></div>';
   }
@@ -1388,6 +1391,28 @@ function cgWhy(cards){var ic=['award','users','globe','shield'];return '<div cla
 document.addEventListener('click',function(e){var b=e.target.closest('[data-bfilter]');if(!b)return;var c=b.getAttribute('data-bfilter');
   document.querySelectorAll('[data-bfilter]').forEach(function(x){x.classList.toggle('active',x===b)});
   document.querySelectorAll('#blogGrid .bcard').forEach(function(a){a.classList.toggle('hide',c!=='all'&&a.getAttribute('data-bcat')!==c)});});
+
+/* (2026-11-16) country downloads: open the document in a viewer with a download button */
+(function(){
+  var V=null;
+  function close(){if(V){V.classList.remove('open');document.documentElement.style.overflow=''}}
+  function open(k){
+    var F=typeof DLF!=='undefined'&&DLF[k];if(!F)return false;
+    if(!V){V=document.createElement('div');V.className='docv';V.setAttribute('role','dialog');V.setAttribute('aria-modal','true');
+      V.innerHTML='<div class="docv-bar"><b></b><a class="btn btn-gold btn-sm docv-dl" download>Download PDF</a><button type="button" class="docv-x" aria-label="Close">&times;</button></div><div class="docv-body"></div>';
+      document.body.appendChild(V);
+      V.addEventListener('click',function(e){if(e.target===V||e.target.classList.contains('docv-body')||e.target.closest('.docv-x'))close()});
+      document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});}
+    V.querySelector('b').textContent=F.label;
+    var dl=V.querySelector('.docv-dl');dl.href='downloads/'+F.f;dl.setAttribute('download',F.f);
+    V.querySelector('.docv-body').innerHTML=F.img.map(function(p,i){return '<img decoding="async" src="downloads/'+p+'" alt="'+F.label.replace(/"/g,'')+(F.img.length>1?' – page '+(i+1):'')+'">'}).join('');
+    V.querySelector('.docv-body').scrollTop=0;
+    document.documentElement.style.overflow='hidden';
+    requestAnimationFrame(function(){V.classList.add('open');V.querySelector('.docv-x').focus()});
+    return true;
+  }
+  document.addEventListener('click',function(e){var a=e.target.closest('[data-view]');if(!a)return;if(open(a.getAttribute('data-view')))e.preventDefault()});
+})();
 
 build();initHome();initMenus();initForms();initEligibility();initOffDD();initContactFAQ();initWAChannel();initEventPopup();
 try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e){}

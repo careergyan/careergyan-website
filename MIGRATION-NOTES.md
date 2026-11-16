@@ -168,3 +168,12 @@ This applies to the tables, the paragraphs and the "at a glance" boxes. Counts t
 - The Study in Europe Workshop is on **Saturday, 21 November 2026** (the original file said Sunday, 21 November 2027). Fixed on the home page, the workshop popup, the Workshops page, the registration page (dates, event schema, Google Calendar and .ics). The workshop's name, "Study in Europe Workshop 2027" (for the 2027 intake), is unchanged.
 - New **Blog**: `/blog` (`blog.html`) lists the posts with topic filters; each post is its own page, `/blog-<slug>` (`blog-<slug>.html`), with BlogPosting schema. Blog is linked in the header, mobile menu and footer (Resources), and the three "Latest study abroad guides" cards on the home page now open their posts.
 - The six posts are **sample content** written for the launch. To add or change posts, edit `tools/blog_data.py` (title, category, date, image, excerpt, body) and rebuild; prices follow the site rule (currency first, * at the end).
+
+## Country-page downloads — 2026-11-16
+
+The generated dummy checklists are replaced by Career Gyan's own documents (folder `downloads/`). The section keeps its two-card design; **both buttons open the same document** in an on-page viewer with a **Download PDF** button (without JavaScript the link opens the PDF directly).
+
+- **Checklists**, your Pages documents converted to PDF unchanged (same text and layout, one page each): UK, USA, Germany, Ireland, Italy, Netherlands, Australia, and the Baltic checklist for Latvia and Lithuania.
+- **Posters**, for countries without a checklist: Canada, Poland, Sweden, Finland.
+- **Still generated from the page content** (no file supplied yet): Austria, France, Hungary, New Zealand, Romania, Spain.
+- To add or replace a document: put the PDF in `checklists/orig/final/` (checklist) or add it to `POSTERS` in `tools/make_checklists.py`, run that script, then rebuild.

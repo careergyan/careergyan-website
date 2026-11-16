@@ -86,6 +86,7 @@
 - Country page: country photo in the closing banner when set
 - Router: register the blog list and the blog post pages
 - Nav: highlight Blog on blog pages
+- Country downloads: both cards open the client document (viewer + download) instead of generating dummy PDFs
 - New code block (Supabase + eligibility review/results), clearly marked
 - All script-built images decode off the main thread
 
@@ -496,19 +497,27 @@
 @@ -1030 +1058 @@
 -  Q.push(['How can Career Gyan help me study in '+n+'?','We support you end to end: counselling, university shortlisting, SOP, LOR and LOM (Letter of Motivation) support, application submission, visa preparation, education loans and pre-departure guidance. <a href="#/contact">Book a free counselling session</a> to get started.']);
 +  Q.push(['How can Career Gyan help me study in '+n+'?','We support you end to end: counselling, university shortlisting, SOP, LOR and LOM (Letter of Motivation) support, application submission, visa preparation, education loans and pre-departure guidance. <a href="contact.html">Book a free counselling session</a> to get started.']);
-@@ -1106 +1134 @@
+@@ -1035,0 +1064 @@
++var DLF={"uk":{"f":"UK_Education_Document_Checklist.pdf","img":["UK_Education_Document_Checklist-p-1.jpg"],"label":"UK Education Document Checklist","kb":34},"usa":{"f":"USA_Education_Document_Checklist.pdf","img":["USA_Education_Document_Checklist-p-1.jpg"],"label":"USA Education Document Checklist","kb":86},"germany":{"f":"Germany_Education_Document_Checklist.pdf","img":["Germany_Education_Document_Checklist-p-1.jpg"],"label":"Germany Education Document Checklist","kb":89},"ireland":{"f":"Ireland_Education_Document_Checklist.pdf","img":["Ireland_Education_Document_Checklist-p-1.jpg"],"label":"Ireland Education Document Checklist","kb":32},"italy":{"f":"Italy_Education_Document_Checklist.pdf","img":["Italy_Education_Document_Checklist-p-1.jpg"],"label":"Italy Education Document Checklist","kb":32},"netherlands":{"f":"Netherlands_Education_Document_Checklist.pdf","img":["Netherlands_Education_Document_Checklist-p-1.jpg"],"label":"Netherlands Education Document Checklist","kb":29},"australia":{"f":"Australia_Document_Checklist.pdf","img":["Australia_Document_Checklist-p-1.jpg"],"label":"Australia Document Checklist","kb":90},"latvia":{"f":"Baltic_Country_Education_Document_Checklist.pdf","img":["Baltic_Country_Education_Document_Checklist-p-1.jpg"],"label":"Baltic Country Education Document Checklist","kb":31},"lithuania":{"f":"Baltic_Country_Education_Document_Checklist.pdf","img":["Baltic_Country_Education_Document_Checklist-p-1.jpg"],"label":"Baltic Country Education Document Checklist","kb":31},"canada":{"f":"Study_in_Canada_Career_Gyan.pdf","img":["Study_in_Canada_Career_Gyan-p-1.jpg"],"label":"Study in Canada \u2013 Career Gyan","kb":254},"poland":{"f":"Study_in_Poland_Career_Gyan.pdf","img":["Study_in_Poland_Career_Gyan-p-1.jpg"],"label":"Study in Poland \u2013 Career Gyan","kb":774},"sweden":{"f":"Study_in_Sweden_Career_Gyan.pdf","img":["Study_in_Sweden_Career_Gyan-p-1.jpg"],"label":"Study in Sweden \u2013 Career Gyan","kb":788},"finland":{"f":"Study_in_Finland_Career_Gyan.pdf","img":["Study_in_Finland_Career_Gyan-p-1.jpg"],"label":"Study in Finland \u2013 Career Gyan","kb":745}};
+@@ -1037 +1066 @@
+-  var n=d.name;
++  var n=d.name,F=DLF[k];
+@@ -1038,0 +1068,2 @@
++    if(F)return '<div class="dlc'+(dark?' dark':'')+' rv"><span class="hf-ic">'+icon(ic)+'</span><h3>'+title+'</h3><p>'+desc+'</p>'+
++      '<a class="dl-file" href="downloads/'+F.f+'" target="_blank" rel="noopener" data-view="'+k+'"><span class="dl-pdf">PDF</span><span class="dl-meta"><b>'+F.label+'</b><small>'+F.img.length+' page'+(F.img.length>1?'s':'')+' · Click to view &amp; download</small></span><span class="dl-go">'+icon('download')+'</span></a></div>';
+@@ -1106 +1137 @@
 -    ['Can Career Gyan help with scholarships and financial aid?','Yes. We help students identify and apply for scholarships and financial aid, and guide you in presenting a strong application. See our <a href="#/student-loan">Student Loan</a> page for funding support.']
 +    ['Can Career Gyan help with scholarships and financial aid?','Yes. We help students identify and apply for scholarships and financial aid, and guide you in presenting a strong application. See our <a href="student-loan.html">Student Loan</a> page for funding support.']
-@@ -1130 +1158 @@
+@@ -1130 +1161 @@
 -    '<div class="evpop-img"><span class="bgblur" style="background-image:url(\''+src+'\')"></span><img src="'+src+'" alt="'+esc(e.t)+'"></div>'+
 +    '<div class="evpop-img"><span class="bgblur" style="background-image:url(\''+src+'\')"></span><img decoding="async" src="'+src+'" alt="'+esc(e.t)+'"></div>'+
-@@ -1133 +1161 @@
+@@ -1133 +1164 @@
 -    '<div class="evpop-act"><a class="btn btn-gold" href="'+eventUrl+'">'+(e.page?'Register for this workshop':(pick.upcoming?'Register now':'Enquire about upcoming events'))+' '+icon('arrow')+'</a><a class="btn btn-ghost" href="#/workshop">All workshops &amp; events</a></div></div></div>';
 +    '<div class="evpop-act"><a class="btn btn-gold" href="'+eventUrl+'">'+(e.page?'Register for this workshop':(pick.upcoming?'Register now':'Enquire about upcoming events'))+' '+icon('arrow')+'</a><a class="btn btn-ghost" href="workshops.html">All workshops &amp; events</a></div></div></div>';
-@@ -1142 +1170 @@
+@@ -1142 +1173 @@
 -  var h=location.hash.replace(/^#\/?/,'');
 +  var h=document.body.getAttribute('data-route')||'';
-@@ -1147,0 +1176,213 @@
+@@ -1147,0 +1179,235 @@
 +
 +/* =====================================================================
 +   ADDED (2026-11-11): Supabase saving for the enquiry forms + eligibility
@@ -722,9 +731,31 @@
 +  document.querySelectorAll('[data-bfilter]').forEach(function(x){x.classList.toggle('active',x===b)});
 +  document.querySelectorAll('#blogGrid .bcard').forEach(function(a){a.classList.toggle('hide',c!=='all'&&a.getAttribute('data-bcat')!==c)});});
 +
-@@ -1150 +1390,0 @@
++/* (2026-11-16) country downloads: open the document in a viewer with a download button */
++(function(){
++  var V=null;
++  function close(){if(V){V.classList.remove('open');document.documentElement.style.overflow=''}}
++  function open(k){
++    var F=typeof DLF!=='undefined'&&DLF[k];if(!F)return false;
++    if(!V){V=document.createElement('div');V.className='docv';V.setAttribute('role','dialog');V.setAttribute('aria-modal','true');
++      V.innerHTML='<div class="docv-bar"><b></b><a class="btn btn-gold btn-sm docv-dl" download>Download PDF</a><button type="button" class="docv-x" aria-label="Close">&times;</button></div><div class="docv-body"></div>';
++      document.body.appendChild(V);
++      V.addEventListener('click',function(e){if(e.target===V||e.target.classList.contains('docv-body')||e.target.closest('.docv-x'))close()});
++      document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});}
++    V.querySelector('b').textContent=F.label;
++    var dl=V.querySelector('.docv-dl');dl.href='downloads/'+F.f;dl.setAttribute('download',F.f);
++    V.querySelector('.docv-body').innerHTML=F.img.map(function(p,i){return '<img decoding="async" src="downloads/'+p+'" alt="'+F.label.replace(/"/g,'')+(F.img.length>1?' – page '+(i+1):'')+'">'}).join('');
++    V.querySelector('.docv-body').scrollTop=0;
++    document.documentElement.style.overflow='hidden';
++    requestAnimationFrame(function(){V.classList.add('open');V.querySelector('.docv-x').focus()});
++    return true;
++  }
++  document.addEventListener('click',function(e){var a=e.target.closest('[data-view]');if(!a)return;if(open(a.getAttribute('data-view')))e.preventDefault()});
++})();
++
+@@ -1150 +1415,0 @@
 -window.addEventListener('hashchange',route);
-@@ -1158 +1398 @@
+@@ -1158 +1423 @@
 -  var PAGE='workshop-registration.html';
 +  var PAGE='workshops/workshop-registration.html';
 ```
