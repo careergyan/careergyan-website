@@ -2463,3 +2463,52 @@ a.dl-file{text-decoration:none;color:inherit}
 .docv-body img{width:100%;max-width:860px;height:auto;background:#fff;border-radius:6px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6)}
 @media(max-width:640px){.docv-bar{padding:10px 12px;gap:8px}.docv-bar b{font-size:13px}.docv-bar .btn{padding:10px 14px;font-size:13px}.docv-body{padding:12px 8px 30px}}
 
+
+/* (2026-11-17, requested) mobile fixes */
+/* home 09 events: ticket cards fit the phone width (text wraps instead of overflowing) */
+@media(max-width:680px){
+ .hx-tk{grid-template-columns:84px minmax(0,1fr)}
+ .hx-tk::before,.hx-tk::after{left:84px}
+ .hx-tk-d{padding:16px 8px;grid-row:span 2}
+ .hx-tk-d b{font-size:34px}
+ .hx-tk-b{padding:20px 18px 8px;min-width:0}
+ .hx-tk-b h3{font-size:19px;overflow-wrap:anywhere}
+ .hx-tk-b .meta{font-size:14px;gap:8px}
+ .hx-tk-b .meta span,.hx-tk-b .meta a{align-items:flex-start;min-width:0}
+ .hx-tk-b .meta .ic{flex:none;margin-top:2px}
+ .hx-tk-go{padding:0 18px 20px;min-width:0}
+ .hx-tk-go a{white-space:normal;padding:12px 16px;font-size:14px;line-height:1.3}
+}
+/* country + location pages: photo collage — full-width photo, the two cards side by side underneath */
+@media(max-width:680px){
+ .h-collage{grid-template-columns:1fr;gap:14px}
+ .hc-main{height:auto;aspect-ratio:4/3}
+ .hc-side{grid-template-columns:1fr 1fr;grid-template-rows:auto;gap:14px}
+ .hc-gold,.hc-navy{padding:20px 18px;border-radius:22px;min-height:190px}
+ .hc-gold span{font-size:14px}
+ .hc-navy p{font-size:14px;line-height:1.5}
+ .hc-small{min-height:190px;border-radius:22px}
+ .hc-small img{min-height:190px}
+}
+/* home 03 services: on phones the photo opens inside the selected service, next to its description */
+.svc-m .hx-svc-grid>.hx-svs{display:none}
+.svc-m .hx-si .hx-svs{display:block;position:relative;top:0;height:auto;aspect-ratio:16/10;margin:4px 0 14px;border-radius:20px;order:0}
+.svc-m .hx-si-bar{display:none}
+@media(max-width:680px){.svc-m .hx-si .hx-svs .hx-ss-card{left:12px;right:12px;bottom:12px;padding:12px 14px}.svc-m .hx-si .hx-svs .hx-ss-num{font-size:44px}}
+
+/* eligibility page testimonials block: fits phones (the stat boxes forced it wider than the screen) */
+.el-tst-grid>*{min-width:0}
+@media(max-width:680px){.el-tst{padding:30px 20px;border-radius:24px}.el-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:24px}.el-stats div{padding:14px 10px;border-radius:16px}.el-stats b{font-size:clamp(19px,6vw,24px)}.el-stats span{font-size:12.5px}.el-tst p{font-size:15.5px}.el-tst p br{display:none}}
+/* country pages: 3-column cost/salary tables fit the phone width instead of hiding the last column off-screen */
+@media(max-width:640px){.gt-cols3 .gt{min-width:0;width:100%}.gt th{white-space:normal;font-size:13px;padding:11px 10px}.gt td{font-size:13.5px;padding:10px 10px;overflow-wrap:anywhere}}
+
+.swipe-hint{font-size:13px;font-weight:600;color:var(--blue);margin:0 0 8px;text-align:right}
+
+/* (2026-11-17) photo collage on every screen size: the photo keeps its share (60/40), the big number scales to fit its card
+   (long numbers such as 50,000+ had pushed the card column wider and squeezed the photo into a strip on laptops) */
+.h-collage{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.hc-side{min-width:0}
+.hc-gold{container-type:inline-size;min-width:0}
+.hc-gold b{white-space:nowrap;font-size:min(72px,30cqi)}
+.hc-gold.long b{font-size:min(72px,23cqi)}
+@media(max-width:680px){.h-collage{grid-template-columns:1fr}}

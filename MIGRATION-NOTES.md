@@ -177,3 +177,14 @@ The generated dummy checklists are replaced by Career Gyan's own documents (fold
 - **Posters**, for countries without a checklist: Canada, Poland, Sweden, Finland.
 - **Still generated from the page content** (no file supplied yet): Austria, France, Hungary, New Zealand, Romania, Spain.
 - To add or replace a document: put the PDF in `checklists/orig/final/` (checklist) or add it to `POSTERS` in `tools/make_checklists.py`, run that script, then rebuild.
+
+## Mobile fixes and Back-button position — 2026-11-17
+
+- **Back/Forward keeps your place:** returning to a page restores the scroll position you left it at. New visits still open at the top. (The original single-page design forced every load to the top.)
+- **Home, 03 services:** on phones and tablets the photo opens inside the selected service, directly above its description; auto-rotation is off there (changes only on tap). Desktop unchanged.
+- **Home, 09 events:** ticket cards fit the phone width; text and the button wrap instead of being cut off.
+- **Country and location pages, photo collage:** on phones the photo is full width with the two cards side by side below it (the number card had squeezed the photo into a sliver).
+- **Location pages, icons:** the small icons (Why choose us cards and SOP/LOR/CV/Visa cards) are embedded in the page so they always show.
+- **Eligibility page, testimonials block:** fits phone width.
+- **Country tables:** 3-column tables fit the phone width; wider tables (4 columns, All Countries comparison) scroll sideways with a "Swipe to see more" hint.
+- **Photo collage on laptops (2026-11-17, follow-up):** the photo keeps a fixed 60/40 share with the cards on every screen size; the big number (e.g. 50,000+) scales to fit its card. Bangalore's "100% VISA clearance" now reads 97%, matching the rest of the site.

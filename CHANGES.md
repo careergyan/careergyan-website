@@ -87,6 +87,8 @@
 - Router: register the blog list and the blog post pages
 - Nav: highlight Blog on blog pages
 - Country downloads: both cards open the client document (viewer + download) instead of generating dummy PDFs
+- Back/Forward: restore the saved scroll position instead of always jumping to the top
+- Back/Forward: the router no longer forces the top when returning to a page
 - New code block (Supabase + eligibility review/results), clearly marked
 - All script-built images decode off the main thread
 
@@ -119,7 +121,7 @@
 @@ -95,2 +96,2 @@
 -  assist:function(){return '<div class="assist">'+[['sop','SOP','Statement of Purpose'],['lor','LOR','Letter of Recommendation'],['lom','LOM','Letter of Motivation'],['cv','CV','Curriculum Vitae'],['visa','Visa','Student Visa Process']].map(function(a,i){return '<article class="assist-card rv" style="--d:'+(i*.08)+'s">'+(a[0]==='lom'?'<span class="assist-ic">'+icon('compass')+'</span>':'<img src="'+IMG+'home/assistance/'+a[0]+'.png" alt="'+a[1]+'" loading="lazy">')+'<h3>'+a[1]+'</h3><p>'+a[2]+'</p><span class="big">'+a[1]+'</span></article>'}).join('')+'</div>'},
 -  partners:function(){var l=PARTNERS.map(function(p){return '<img src="'+IMG+'home/partners/'+p+'" alt="'+p.split('.')[0].replace(/_|-/g,' ')+'" loading="lazy">'}).join('');return '<div class="marquee rv"><div class="track">'+l+l+'</div></div>'},
-+  assist:function(){return '<div class="assist">'+[['sop','SOP','Statement of Purpose'],['lor','LOR','Letter of Recommendation'],['lom','LOM','Letter of Motivation'],['cv','CV','Curriculum Vitae'],['visa','Visa','Student Visa Process']].map(function(a,i){return '<article class="assist-card rv" style="--d:'+(i*.08)+'s">'+(a[0]==='lom'?'<span class="assist-ic">'+icon('compass')+'</span>':'<img decoding="async" src="'+IMG+'home/assistance/'+a[0]+'.png" alt="'+a[1]+'" loading="lazy">')+'<h3>'+a[1]+'</h3><p>'+a[2]+'</p><span class="big">'+a[1]+'</span></article>'}).join('')+'</div>'},
++  assist:function(){return '<div class="assist">'+[['sop','SOP','Statement of Purpose'],['lor','LOR','Letter of Recommendation'],['lom','LOM','Letter of Motivation'],['cv','CV','Curriculum Vitae'],['visa','Visa','Student Visa Process']].map(function(a,i){return '<article class="assist-card rv" style="--d:'+(i*.08)+'s">'+(a[0]==='lom'?'<span class="assist-ic">'+icon('compass')+'</span>':'<img decoding="async" src="'+({sop:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMBAMAAAA1uUwYAAAAJ1BMVEVHcEwUYdcQYNcTYNYTYNYTYNUTYdcUYNcTYdcQYM8SYNcSYNUUYdcaZiIuAAAADHRSTlMA3yCCQWCgwu8QbzDWBr7bAAAC1klEQVRIx8WWv2sTYRjHn17S1ksdTC243HCNIgodIi3aIUMwqVTo0IItCB3OIcUhQ7VDWskgzVDUG07IIOigqOjQof4CkQ7G/LjTPn+Uz/NeUlLueRNSDD5Lci+fPO/zfX5dAP6jfc1rrRuzUGuDYqlUygqSslnHmMG/aWqCnhka9itlNeGNENn5E9hPICwjqGydGrskVOBmFOsvYRDs1kbUCsNWmpuN2tywlR4/LqzeOVDfFu5qMXPNpdCDgs0t3dBh5nxHI3FW86qMKepC6UHIWVJC2D4hVm7TZ/Ue4lQMNdioixUvPFxBLOuwDNaJMlOe+o41W5SQwCAL5gcXg0c2GC7uynk7xMmO1JZNkf0RMcOiWxbbCanTpYF46RgeQUxJrV4j0P+OmxI2g2kKPJRKQnfiKFahWINRpQ7YMzpQ9gXMoMmfZhE3klt2EcnVEmaj2CiegyJF/ZHjQt/yYZyiiGDj6BhYZxFsO+QqgY+j2FnMskMSkd/HwCNXJkmPYEuoHLq+BxSZckWnUcyHM+xwkmVimvYUFOvCAPp0Rnc55GyLbncbkJHmVJ2N43IMWy+7jyRsBJcNy4nzkext34dXaI9Rri5SDjd1l67XWEJCddk0OhP4W5RwiN4YOqZLVTXKaHMO6d4Iplw9ofS13s9TNUa4KEdSsdKm2ylWGtZDhxGMXWWoJ6jV8Cm1cosdRjF29ZxqALlSwSMRu+xQaMtM4MWxllVnExa+BktqS3ihIuLlAWZGtZTY5DHk3kT/XerbfRZxSKFJc1oODiim0KbCeZSwK/hMzRRZhUU05KmfQIobctu4N+dB3OUHcdUshgKgI0KDURraHK2SYFm7oi+zUA/MH7TbHvbY5CwgSPKWrvRc+CvthHS2pu698GWboL25/m+Zav7zv3sZ9cT8DdmKJ7H+/7gGwN7OinYdK7PdmMZ4tgbGmqsaWzuB9bDBsVIPcxTyF+BvGk6GyoYVAAAAAElFTkSuQmCC',lor:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMBAMAAAA1uUwYAAAALVBMVEVHcEwUYdcUYNcUYdcUYNYQYNYUYNYTYNcTYdcQYM8TYdcSYNcUYtcSYNYUYdcMeiThAAAADnRSTlMAv7/egCBgQZgQ729/MPWHqOwAAAHoSURBVEjH1Za/S8NAFMdfaaOEiCAuTlKKk5MopYoSOggOggRE0EUEf4CD0kknwUFBl+IiiIiIurgUUf8IJ3FzbxSlyPsbzLvrNWdylxyiUL/LHeRz98179+4HgKHOerQ6lLAqavUhYf16rP4TTPfX7YN5vDme49JgWf+Imi4R5a4ae6IPAS2wNyVmIb5TmxHYmAqz7hH9jaBjr0xyeQrMqbEZJlIiPQ8YKgEvFRvPuamYg3gLm/ialt4qXoBLKbEfD7hUIQTpep+q+XJCblQY++qnpjcrMCdxsRjWkJZ+AdSm9Ts2W3Kk1t4zzO+3bZEbYPbDZETTqsXKxne8qnoX45hqsTJxLK8K4WU7op3/ll5nJNToUeI+bekWrF42AFEM9Th2KmNL8TTucqyzEGpAke28MgTCLsWwwUTss9m3qwnYFWKR92cRXS1WdNGvULejhvVFgdlroVYJG8ohO3jIstwtsG9lWSEMlpltYFmCFvatLMsMs8iWLD1QztbwGAaB7SdZQojBVvhv68AxsiVLGYtGSlhgS5ZpGNmWIR2D5RKYYE21sA7pudCnxyJlaYQtabGctBeG9aaGIfwUu5bPupmEIjfcMgZYZ4RqVNRnCL+RsD4X3kztfb795qNxxuylelLQ6hD+Rl/sXQbJDGQ+ZQAAAABJRU5ErkJggg==',cv:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMCAMAAADwSaEZAAAAM1BMVEVHcEwTYdcQYM8TYdcUYdcVYNcUYNcQYNQTYdcUYNYUYNYSYNcTYdcTYNgZALYAQhYUYdfbwDTIAAAADnRSTlMAnRDvwd9bIN+AQHCvMEhjtI0AAAK6SURBVFjD7ZjJkt4gDIQFKEIsrur3f9ocwDZewPGSVE1V+jCHsf3ZWlrAT/RfjxUZp0pEFBCIKJzfoHJgCTpiIuL6t6MDTQH360xCRJKFiITPrjvA7VgecP5RerwDjjB9mGy+gFkxOQf/CSy5kljj38PMWvVp2z0mcxZLlLgUMPF0AQsANIkYAGqb2Hl5A+AsEUUgj2EegCEioskBYb1D5+/NxKW3DGDGMFP6lMqbnW2DNxJFIRTKPQrEMYyBWP1leO1uv3S6LV1pKZZnRjCUa9Gs1qQlpKaCaf7XBSyZ7Fqf18cbCyaAa5RDmK6N0Zp4ib6ECkDqIxcFAABnonUA7Bpm2Haqq4GPYAIgiN8VlmQ7CRKA+q0jmMVycZN0BTQSeeZY76pPDB3ggPoJuU16BACnAHJF1DcNYTxnxyvQmFNcO1hljnIMS4CbiMjm3YzzRgFwQVid8zmEWQWQg3En09371fn+egTZ1K4bauTFPEvHlcw/hZWlkdOkgESjLc0ms1Wd6z2YB8BiV/dE4+bGnfS4YIYRzNQmIgpzv8dqKa+95b4Ha7pU7JqSqbhBk2yUy/Lbg21Hw2Zc8MkuoHhlABO/U4XldbQtc+gSdqZYeyZvq8njsZ37MKu9/U8PNp3uc8xuqVvk0p/sNTrbQdnJ0nPYXTtZf6KHsPO9aN1wWAk7jb3Zqeb0yJuDat735kAJcGYb5YU3x2m+6c1BNe97c1DNcAzzmTenD72Z/4o3dz37c73p7ngzPfem/8ab/Lk35bRp/503+8rvYOGlN/c/AbzwZiyyu/Nw3VKdlbPvzUXGdgq6b9qBNxvaS2+WdDMzc3NgegqjMH+S1hPKUk22t2ELbYZtq3kTNtNm2K6aN2GVpstB7HnOFtpXsDnp38Aq7Q7MaxdWaHpDbjRvAm5rcPK7S+P4A36e/Q1crmowlksGtgAAAABJRU5ErkJggg==',visa:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABNBAMAAAD+5Z+9AAAAKlBMVEVHcEwUYNYTYdcTYdcTYNYUYNcUYNQQYNcQYM8TYdcSYNcTYNcTYdgUYdd0DTVtAAAADXRSTlMAYJ/fgsFAIRDvcFCvEWREDQAAAoFJREFUSMftls9rE1EQxyfGZJfdyxYEwRIQL4ISqCTqacG2e7DiQi7+uCz0IN6EBSmhh4CliheFeutloafqJRDEa2/1GDDdbH7Uzv/izFuzP7qbfQYUL/2yyeY9PtmZeftm3gBc6EIS6TckWmVKMVGm+4S9llLovwGoT1eXirWBDwDMnzLnq7gHwB+h9+Jq8y+Xx27EeT8IWwl/K15PMQ9KUxc+oG8AlNmjUGYCK2GLrktoQB3xFOAIN/MwFScVNAhTMPCGAH1s5WHgnHbQJayKn7SboCBOcrFuUAuAMNXDpks+4DAX+4jOgDGo8bqX0QlysQriWGDKOj2og04UQwojMy3GlGPo+hwuL34WI58MxirYJHu8IfbzMHDQZUwjYKDjnaXoNaaxV+TzZXJonczp9GQ7H9O/0NcyWf/2GeAaOdvLxeZKYPdeyiR2yB9oASx4IpO3QAj/C1OvWDMd0rRmxXrkxth2InjaPbXkYrRiLFlGKKnsfKyKTcvG4LGJx1b/jN55wqgVGy3hdTJkwBb9tePPDYGx/pD371iGOWMa1wcyzFwc22o0noHWELrbm4vZKBI11EratxHn1khgR5RasBsvdwKzA07oicDUdptqWztU2rdtfKpu0F0SgiZKtivDKOcRyT8JtmP6U+9M9rQXHt3p9V8txL4jTntc4Xy7CEMMHtL4K4dRhJ2ElXHHLMaM3zPvCrGT2YxSgOk4jI47M6rfVTFejjGquqmUCVXLZFY3gT2fYXYGU9aig/1WdO69DSc2/0kN2ZNiXAa9kbRRYYN2unMQJ7x6rnOg7bibrsbirC2f60PcTFczCo/WTFcDpbVkQ3QgplI90u2/3ZX9AszFirc+Nt+hAAAAAElFTkSuQmCC'}[a[0]]||IMG+'home/assistance/'+a[0]+'.png')+'" alt="'+a[1]+'">')+'<h3>'+a[1]+'</h3><p>'+a[2]+'</p><span class="big">'+a[1]+'</span></article>'}).join('')+'</div>'},
 +  partners:function(){var l=PARTNERS.map(function(p){return '<img decoding="async" src="'+IMG+'home/partners/'+p+'" alt="'+PALT(p)+'" loading="lazy">'}).join('');return '<div class="marquee rv"><div class="track">'+l+l+'</div></div>'},
 @@ -103 +104 @@
 -    return '<div class="reels">'+r.map(function(id,i){return '<a class="reel rv" style="--d:'+(i*.08)+'s" href="https://www.instagram.com/reel/'+id+'/" target="_blank" rel="noopener"><span class="play">'+icon('play')+'</span><small>@careergyanblr</small><b>Student story '+(i+1)+'</b></a>'}).join('')+'</div>';
@@ -227,6 +229,9 @@
 -  if(page!=='dynamic')document.title=TITLES[page];
 @@ -253,0 +265 @@
 +  var cp=document.body.getAttribute('data-path');$$('.hdr a[href],.mnav a[href]').forEach(function(a){if(a.getAttribute('href')===cp)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+@@ -255 +267 @@
+-  {var de=document.documentElement;de.style.scrollBehavior='auto';window.scrollTo(0,0);de.style.scrollBehavior=''}
++  if(!(typeof CG_BACK!=='undefined'&&CG_BACK)){var de=document.documentElement;de.style.scrollBehavior='auto';window.scrollTo(0,0);de.style.scrollBehavior=''}
 @@ -300,0 +313 @@
 +  if($('#finder')){ /* MPA page guard */
 @@ -303,2 +316,2 @@
@@ -517,7 +522,7 @@
 @@ -1142 +1173 @@
 -  var h=location.hash.replace(/^#\/?/,'');
 +  var h=document.body.getAttribute('data-route')||'';
-@@ -1147,0 +1179,235 @@
+@@ -1147,0 +1179,264 @@
 +
 +/* =====================================================================
 +   ADDED (2026-11-11): Supabase saving for the enquiry forms + eligibility
@@ -753,9 +758,51 @@
 +  document.addEventListener('click',function(e){var a=e.target.closest('[data-view]');if(!a)return;if(open(a.getAttribute('data-view')))e.preventDefault()});
 +})();
 +
-@@ -1150 +1415,0 @@
++/* (2026-11-17, requested) home 03 services on phones/tablets: the photo panel moves into the open service, so the photo and
++   its description are seen together; auto-rotation is off there (the list only changes when the visitor taps). */
++setTimeout(function(){
++  var svl=document.getElementById('svcList'),stage=document.getElementById('svcStage');if(!svl||!stage)return;
++  var sec=svl.closest('.hx-svc'),grid=stage.parentNode,mq=window.matchMedia('(max-width:1024px)'),obs=null;
++  function place(){var on=svl.querySelector('.hx-si.on .hx-si-b>div');if(on&&stage.parentNode!==on)on.insertBefore(stage,on.firstChild)}
++  function keepPaused(){if(mq.matches)svl.classList.add('paused')}
++  function apply(){
++    if(mq.matches){sec.classList.add('svc-m');svl.classList.add('paused');place();
++      if(!obs){obs=new MutationObserver(place);obs.observe(svl,{subtree:true,attributes:true,attributeFilter:['class']})}}
++    else{sec.classList.remove('svc-m');if(obs){obs.disconnect();obs=null}if(stage.parentNode!==grid)grid.appendChild(stage);svl.classList.remove('paused')}
++  }
++  svl.addEventListener('mouseleave',keepPaused);svl.addEventListener('touchend',keepPaused);
++  if(mq.addEventListener)mq.addEventListener('change',apply);else if(mq.addListener)mq.addListener(apply);
++  apply();
++},0);
++
++/* (2026-11-17) phones: tables wider than the screen get a small "swipe" hint (they scroll sideways) */
++setTimeout(function(){
++  function hint(){document.querySelectorAll('.gt-wrap,.cmp-wrap').forEach(function(w){
++    var need=w.scrollWidth>w.clientWidth+8,h=w.previousElementSibling&&w.previousElementSibling.classList.contains('swipe-hint')?w.previousElementSibling:null;
++    if(need&&!h){h=document.createElement('p');h.className='swipe-hint';h.setAttribute('aria-hidden','true');h.textContent='Swipe to see more →';w.parentNode.insertBefore(h,w)}
++    if(h)h.style.display=need?'':'none';})}
++  hint();window.addEventListener('resize',hint);
++},0);
++
++/* (2026-11-17) collage number card: long numbers (e.g. 50,000+) get a size that fits the card */
++setTimeout(function(){document.querySelectorAll('.hc-gold>b').forEach(function(b){if(b.textContent.trim().length>=6)b.parentNode.classList.add('long')})},0);
++
+@@ -1150,3 +1445,11 @@
 -window.addEventListener('hashchange',route);
-@@ -1158 +1423 @@
+-window.addEventListener('load',function(){window.scrollTo(0,0)},{once:true});
+-window.addEventListener('pageshow',function(){window.scrollTo(0,0)});
++var CG_BACK=(function(){try{var n=performance.getEntriesByType('navigation')[0];return !!n&&n.type==='back_forward'}catch(e){return false}})();
++var CG_KEY='cgScroll:'+location.pathname;
++function cgSave(){try{sessionStorage.setItem(CG_KEY,String(Math.round(window.scrollY||window.pageYOffset||0)))}catch(e){}}
++window.addEventListener('pagehide',cgSave);
++document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')cgSave()});
++document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('a[href]'))cgSave()},true);
++function cgGo(y){var de=document.documentElement;de.style.scrollBehavior='auto';window.scrollTo(0,y);de.style.scrollBehavior=''}
++function cgRestore(){var y=0;try{y=+sessionStorage.getItem(CG_KEY)||0}catch(e){}if(!y)return;cgGo(y);setTimeout(function(){if(Math.abs((window.scrollY||0)-y)>40)cgGo(y)},300)}
++if(CG_BACK)cgRestore();
++window.addEventListener('load',function(){if(CG_BACK)cgRestore();else cgGo(0)},{once:true});
++window.addEventListener('pageshow',function(e){if(e.persisted)return;if(!CG_BACK)cgGo(0)});
+@@ -1158 +1461 @@
 -  var PAGE='workshop-registration.html';
 +  var PAGE='workshops/workshop-registration.html';
 ```
