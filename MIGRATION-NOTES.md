@@ -188,3 +188,37 @@ The generated dummy checklists are replaced by Career Gyan's own documents (fold
 - **Eligibility page, testimonials block:** fits phone width.
 - **Country tables:** 3-column tables fit the phone width; wider tables (4 columns, All Countries comparison) scroll sideways with a "Swipe to see more" hint.
 - **Photo collage on laptops (2026-11-17, follow-up):** the photo keeps a fixed 60/40 share with the cards on every screen size; the big number (e.g. 50,000+) scales to fit its card. Bangalore's "100% VISA clearance" now reads 97%, matching the rest of the site.
+- **Slovakia office (2026-11-17):** Manohar GS, Lenta 27, Košice, Slovakia · +421 950 202 052 — added to the footer office panel, the home office explorer, the Contact page office list, the top bar and the footer line.
+
+## Events — 2026-11-17
+
+- **Menu:** "Workshops" is now **Events** everywhere (header dropdown, mobile menu, footer): Webinar · Workshop · Spot Admission · Education Fair · All events. Webinar and Spot Admission open the events list.
+- **Workshop** → `workshops/workshop-registration.html` is now the **Personality Workshop**: Saturday 5 Dec 2026, 11 AM–1 PM, Career Gyan Jayanagar office, 20 seats, ₹1,449.
+- **Education Fair** → new page `events.html` (**Study in Europe Event**): Saturday 23 Jan 2027, 10 AM–5 PM, Hyatt Centric MG Road; Germany, France, Italy, Spain, Eastern Europe; Bachelor's, Master's, PhD; ₹1,449. Content kept from the earlier Study in Europe page.
+- **Same Supabase + Razorpay** for both. Each form sends `form_name` ("Personality Workshop" / "Study in Europe Event") to create-order and in the Razorpay checkout notes. Database: one `form_name` column, see `supabase/events-migration.sql` (create-order must save the field).
+- **Fee display:** both pages show ₹1,449 (no "+ GST"). The amount actually charged is set by the create-order function, so it must charge ₹1,449 (144900 paise).
+- Home event list, "next event" popup, calendar buttons and SEO (Event schema, sitemap) updated. To rebuild: `event_pages.py` runs after `localize.py`.
+
+## Workshops (not Events), carousel, LOR wording, Student Loan — 2026-11-18
+
+- **Menu back to "Workshops"** everywhere (header, mobile, footer, popup, home). No "events" in any URL: the Study in Europe Event page is now `/workshops/study-in-europe-event` (the old `/events` already redirects to `/workshops`).
+- **Workshops page:** Webinar · Workshop · Spot Admission · Education Fair as a sliding carousel (tabs, arrows, swipe, dots; auto-advances every 6 s and pauses on hover/touch). Workshop → Personality Workshop page; Education Fair → Study in Europe Event page; Webinar and Spot Admission → Contact.
+- **Letters of recommendation (LOR) removed from the whole site** (SOP and LOM kept): service descriptions, FAQs, the LOR document cards (home 04 and location pages, rows are now four across), country "documents required" lists and the Study in Europe Event page. Career Gyan's own downloadable checklist PDFs are unchanged.
+- **Student Loan:** the two hero buttons (Get Free Counselling, Check Eligibility) are removed.
+- **Workshops page, no repeats (2026-11-18):** the "Featured / Our Latest Workshops" block (it repeated the Workshop slide) is removed. Below the main slides, "Past events – Workshops, fairs & coffee meetups" is a slider (arrows on desktop, swipe on phones) with the city filters, listing every event that is not already a main slide (11 now).
+- **Workshops page scales with more events (2026-11-18):** the fixed four slides are replaced by four tabs (Webinar, Workshop, Spot Admission, Education Fair) built from the `EVENTS` list. Each tab shows its upcoming events: one event = large card, two or more = slider (arrows on laptops, swipe on phones), none = "No … scheduled right now" with an enquire button. When an event's date passes it moves to the "Past events" slider automatically.
+- **Adding an event:** add one entry to `EVENTS` (in `tools/build.py`, section 14) with `t` title, `d` date ("Saturday, 12 December 2026"), `tm` time, `l` venue, `img` image, `city`, `kind` (exactly one of: Webinar, Workshop, Spot Admission, Education Fair), optional `ds` short description, and `href` if it has its own registration page. Then rebuild.
+- **Study in Europe Event fee (2026-11-18):** shown as ₹100 everywhere (page, Workshops tab, search snippet, Event schema). The Personality Workshop stays ₹1,449. The amount actually charged is set by the create-order function, which must charge ₹100 (10000 paise) when form_name = "Study in Europe Event".
+- **Prices per form (2026-11-18):** `supabase/forms-and-prices.sql` adds a `forms` table (form_name, category, price, seats, open/closed) used by the one create-order function instead of the AMOUNT secret. All forms save into the one `registrations` table with their `form_name`.
+
+## Registrations: one table, a price per form (2026-11-18)
+
+Files in `supabase/`:
+- `registrations-forms.sql`: run once in the SQL Editor. Adds the `forms` table (form_name, category, price, seat limit, open/closed, date/time/venue for emails) and a `form_name` column on `registrations`; marks existing rows as "Study in Europe Workshop"; creates the `form_registration_summary` view.
+- `functions/create-order/index.ts`: price comes from `forms` (not the REGISTRATION_AMOUNT_PAISE secret); checks the form is open and seats are left; saves form_name.
+- `functions/verify-payment/index.ts`: unchanged check; safe if called twice; returns form_name.
+- `functions/send-confirmation-email/index.ts`: fixes the blank student name (column is full_name); shows event name/date/time/venue; admin email names the form; never sends twice.
+- `functions/razorpay-webhook/index.ts`: paste into your existing webhook function; a late "payment failed" no longer undoes a paid registration; logs amount mismatches.
+
+Order: upload the website → run the SQL → deploy the four functions → test one payment per page → delete REGISTRATION_AMOUNT_PAISE.
+The web pages send form_name "Personality Workshop" and "Study in Europe Event", matching the rows in `forms`.
