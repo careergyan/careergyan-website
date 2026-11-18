@@ -215,10 +215,17 @@ The generated dummy checklists are replaced by Career Gyan's own documents (fold
 
 Files in `supabase/`:
 - `registrations-forms.sql`: run once in the SQL Editor. Adds the `forms` table (form_name, category, price, seat limit, open/closed, date/time/venue for emails) and a `form_name` column on `registrations`; marks existing rows as "Study in Europe Workshop"; creates the `form_registration_summary` view.
-- `functions/create-order/index.ts`: price comes from `forms` (not the REGISTRATION_AMOUNT_PAISE secret); checks the form is open and seats are left; saves form_name.
+- `functions/create-order/index.ts`: price comes from `forms` (not the REGISTRATION_AMOUNT_PAISE secret); checks the form is open and seats are left; saves form_name. A new form is added to `forms` automatically on its first registration, at its type's price from `form_categories` (Webinar ₹50, Workshop ₹1,449, Education Fair ₹100). Each page sends form_name, form_category, form_date, form_time, form_venue.
 - `functions/verify-payment/index.ts`: unchanged check; safe if called twice; returns form_name.
 - `functions/send-confirmation-email/index.ts`: fixes the blank student name (column is full_name); shows event name/date/time/venue; admin email names the form; never sends twice.
 - `functions/razorpay-webhook/index.ts`: paste into your existing webhook function; a late "payment failed" no longer undoes a paid registration; logs amount mismatches.
 
 Order: upload the website → run the SQL → deploy the four functions → test one payment per page → delete REGISTRATION_AMOUNT_PAISE.
 The web pages send form_name "Personality Workshop" and "Study in Europe Event", matching the rows in `forms`.
+
+## Leads dashboard: careergyan.co/admin (2026-11-18)
+
+- `admin.html` (served at /admin): private, read-only dashboard for the marketing team: event registrations (summary card per form with paid / sign-ups / seats left / collected, filters by form, type, payment status, dates, search), enquiries (home + contact forms) and eligibility checker submissions. Every list downloads as CSV (Excel-ready).
+- Not linked anywhere on the site; `noindex`, blocked in robots.txt, not in the sitemap, not cached.
+- Access is enforced by Supabase, not by the page: `supabase/admin-access.sql` lets only users listed in `admin_users` read the data, and nobody can change or delete anything from the dashboard.
+- Add a team member: Supabase > Authentication > Users > Add user (email + password, auto-confirm), then run the `insert into public.admin_users …` line from admin-access.sql with their email. Turn off public sign-ups in Authentication settings.

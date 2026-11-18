@@ -553,7 +553,13 @@ function showLegalDocument(kind){var main=document.getElementById('registrationM
       country,
       course,
       level: educationLevel,
-      form_name: 'Personality Workshop',   // which form this registration came from (saved in the form_name column)
+      // which form this is (saved as form_name). A new form name is added to Supabase automatically,
+      // priced by its type (form_category); date/time/venue appear in the confirmation email.
+      form_name: "Personality Workshop",
+      form_category: "Workshop",
+      form_date: "Saturday, 5 December 2026",
+      form_time: "11:00 AM – 1:00 PM",
+      form_venue: "Career Gyan Jayanagar Office, 41, 7th B Main Rd, 4th Block, Jayanagar, Bengaluru, Karnataka 560011",
       captchaToken
     };
 

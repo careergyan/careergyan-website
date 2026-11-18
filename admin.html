@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Leads Dashboard | Career Gyan</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0B1F4B;--blue:#1A56DB;--sky:#EAF1FF;--gold:#F2A93B;--ink:#1B2540;--muted:#5B6B8C;--line:#E3E8F2;--bg:#F4F7FC;--ok:#0E8F5B;--warn:#B7791F;--bad:#C53030}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:14.5px;line-height:1.5}
+button,input,select{font:inherit}
+[hidden]{display:none!important}
+.wrap{max-width:1400px;margin:0 auto;padding:0 24px}
+/* login */
+.login{min-height:100vh;display:grid;place-items:center;padding:24px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 30px 60px -40px rgba(11,31,75,.35)}
+.login .card{width:100%;max-width:400px;padding:36px 32px}
+.login img{height:42px;display:block;margin:0 auto 18px}
+.login h1{font-size:22px;text-align:center;color:var(--navy);letter-spacing:-.02em}
+.login p.sub{text-align:center;color:var(--muted);margin:4px 0 24px}
+label{display:block;font-weight:600;font-size:13px;margin:0 0 6px;color:var(--navy)}
+.in{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;outline:none;transition:border-color .2s}
+.in:focus{border-color:var(--blue)}
+.field{margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--navy);font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s}
+.btn:hover{border-color:var(--navy)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{background:#1446b8}
+.btn:disabled{opacity:.6;cursor:wait}
+.login .btn{width:100%;margin-top:6px;padding:13px}
+.msg{min-height:20px;margin-top:12px;font-size:13.5px;text-align:center;color:var(--bad)}
+/* app */
+header{background:var(--navy);color:#fff;position:sticky;top:0;z-index:5}
+header .wrap{display:flex;align-items:center;gap:16px;height:64px}
+header img{height:30px;filter:brightness(0) invert(1)}
+header h1{font-size:16px;font-weight:700;opacity:.9;border-left:1px solid rgba(255,255,255,.25);padding-left:14px}
+header .sp{flex:1}
+header .who{font-size:13px;opacity:.8}
+header .btn{padding:8px 14px;background:transparent;color:#fff;border-color:rgba(255,255,255,.35)}
+header .btn:hover{background:rgba(255,255,255,.12);border-color:#fff}
+.tabs{display:flex;gap:6px;margin:22px 0 18px;flex-wrap:wrap}
+.tab{padding:10px 16px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font-weight:700;color:var(--navy);cursor:pointer}
+.tab b{font-weight:700;margin-left:6px;background:var(--sky);color:var(--blue);padding:1px 8px;border-radius:99px;font-size:12px}
+.tab[aria-selected="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.tab[aria-selected="true"] b{background:rgba(255,255,255,.18);color:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-bottom:18px}
+.fc{padding:18px 18px 16px;cursor:pointer;text-align:left;width:100%;display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;font:inherit;color:inherit;transition:border-color .2s,transform .2s}
+.fc:hover{transform:translateY(-2px)}
+.fc.on{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.15)}
+.fc .cat{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blue)}
+.fc h3{font-size:16px;color:var(--navy);margin:4px 0 12px;letter-spacing:-.01em}
+.fc .nums{display:flex;gap:18px;flex-wrap:wrap}
+.fc .nums div{display:flex;flex-direction:column}
+.fc .nums b{font-size:22px;color:var(--navy);letter-spacing:-.02em;line-height:1.1}
+.fc .nums span{font-size:12px;color:var(--muted)}
+.fc .closed{font-size:11px;font-weight:700;color:var(--muted);background:var(--bg);border-radius:99px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;padding:16px;margin-bottom:12px}
+.bar .f{display:flex;flex-direction:column;min-width:150px}
+.bar .f.grow{flex:1;min-width:200px}
+.bar .in{padding:9px 12px;border-radius:10px}
+.bar label{font-size:12px;color:var(--muted);margin-bottom:4px}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 2px 10px;color:var(--muted)}
+.meta b{color:var(--navy)}
+.tbl{overflow:auto;max-height:70vh}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+th{position:sticky;top:0;background:#F7F9FD;color:var(--muted);font-weight:700;text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:12px;text-transform:uppercase;letter-spacing:.04em;z-index:1}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:hover td{background:#FAFCFF}
+td a{color:var(--blue);text-decoration:none}
+td a:hover{text-decoration:underline}
+td.nw{white-space:nowrap}
+td.wrap{min-width:220px;max-width:380px;white-space:pre-wrap}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700;background:var(--bg);color:var(--muted)}
+.pill.paid{background:#E6F6EE;color:var(--ok)}.pill.pending{background:#FFF5E6;color:var(--warn)}.pill.failed{background:#FDECEC;color:var(--bad)}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+.loading{padding:60px;text-align:center;color:var(--muted)}
+.note{color:var(--muted);font-size:12.5px;margin:14px 2px 40px}
+@media(max-width:700px){header h1,header .who{display:none}.wrap{padding:0 14px}.bar .f{min-width:calc(50% - 5px)}.bar .f.grow{min-width:100%}}
+</style>
+</head>
+<body>
+
+<!-- ============ SIGN IN ============ -->
+<main class="login" id="loginView" hidden>
+  <form class="card" id="loginForm" autocomplete="on">
+    <img src="images/logo.png" alt="Career Gyan">
+    <h1>Leads dashboard</h1>
+    <p class="sub">Marketing team sign-in</p>
+    <div class="field"><label for="em">Email</label><input class="in" id="em" type="email" autocomplete="username" required></div>
+    <div class="field"><label for="pw">Password</label><input class="in" id="pw" type="password" autocomplete="current-password" required></div>
+    <button class="btn primary" id="loginBtn" type="submit">Sign in</button>
+    <p class="msg" id="loginMsg" role="alert"></p>
+  </form>
+</main>
+
+<!-- ============ DASHBOARD ============ -->
+<div id="appView" hidden>
+  <header><div class="wrap">
+    <img src="images/logo.png" alt="Career Gyan"><h1>Leads dashboard</h1>
+    <span class="sp"></span><span class="who" id="who"></span>
+    <button class="btn" id="refreshBtn" type="button">Refresh</button>
+    <button class="btn" id="logoutBtn" type="button">Sign out</button>
+  </div></header>
+
+  <div class="wrap">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="reg" aria-selected="true">Event registrations <b id="cReg">–</b></button>
+      <button class="tab" role="tab" data-tab="enq" aria-selected="false">Enquiries <b id="cEnq">–</b></button>
+      <button class="tab" role="tab" data-tab="eli" aria-selected="false">Eligibility checker <b id="cEli">–</b></button>
+    </div>
+
+    <!-- registrations -->
+    <section id="tab-reg">
+      <div class="cards" id="formCards"></div>
+      <div class="card bar">
+        <div class="f"><label for="rForm">Form</label><select class="in" id="rForm"><option value="">All forms</option></select></div>
+        <div class="f"><label for="rCat">Type</label><select class="in" id="rCat"><option value="">All types</option></select></div>
+        <div class="f"><label for="rStatus">Payment</label><select class="in" id="rStatus"><option value="paid">Paid</option><option value="">All</option><option value="pending">Pending</option><option value="failed">Failed</option></select></div>
+        <div class="f"><label for="rFrom">From</label><input class="in" id="rFrom" type="date"></div>
+        <div class="f"><label for="rTo">To</label><input class="in" id="rTo" type="date"></div>
+        <div class="f grow"><label for="rQ">Search</label><input class="in" id="rQ" type="search" placeholder="Name, email, phone, registration ID…"></div>
+      </div>
+      <div class="meta"><span id="rMeta"></span><button class="btn" type="button" data-export="reg">Download CSV</button></div>
+      <div class="card tbl" id="rTable"><div class="loading">Loading…</div></div>
+    </section>
+
+    <!-- enquiries -->
+    <section id="tab-enq" hidden>
+      <div class="card bar">
+        <div class="f"><label for="eSrc">Form</label><select class="in" id="eSrc"><option value="">All</option><option value="home">Home page</option><option value="contact">Contact page</option></select></div>
+        <div class="f"><label for="eFrom">From</label><input class="in" id="eFrom" type="date"></div>
+        <div class="f"><label for="eTo">To</label><input class="in" id="eTo" type="date"></div>
+        <div class="f grow"><label for="eQ">Search</label><input class="in" id="eQ" type="search" placeholder="Name, email, phone, city, course…"></div>
+      </div>
+      <div class="meta"><span id="eMeta"></span><button class="btn" type="button" data-export="enq">Download CSV</button></div>
+      <div class="card tbl" id="eTable"><div class="loading">Loading…</div></div>
+    </section>
+
+    <!-- eligibility -->
+    <section id="tab-eli" hidden>
+      <div class="card bar">
+        <div class="f"><label for="lFrom">From</label><input class="in" id="lFrom" type="date"></div>
+        <div class="f"><label for="lTo">To</label><input class="in" id="lTo" type="date"></div>
+        <div class="f grow"><label for="lQ">Search</label><input class="in" id="lQ" type="search" placeholder="Name, email, phone, city, country…"></div>
+      </div>
+      <div class="meta"><span id="lMeta"></span><button class="btn" type="button" data-export="eli">Download CSV</button></div>
+      <div class="card tbl" id="lTable"><div class="loading">Loading…</div></div>
+    </section>
+
+    <p class="note">Read-only view. Data comes straight from Supabase; use Refresh to load new leads.</p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function(){
+'use strict';
+var SUPABASE_URL='https://veovdcqtyrbakyednkvr.supabase.co';
+var SUPABASE_KEY='sb_publishable_RvXX8tPrW-Dpq1JzXo_1Yg_eE36VuDR';   // public key; data access is decided by Supabase policies
+var $=function(id){return document.getElementById(id)};
+var sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+var DATA={reg:[],enq:[],eli:[],forms:[],summary:[]},VIEW={reg:[],enq:[],eli:[]};
+
+/* ---------- helpers ---------- */
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+var fmtD=new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+function when(v){if(!v)return '';var d=new Date(v);return isNaN(d)?esc(v):esc(fmtD.format(d))}
+function rupees(p){var n=Number(p||0)/100;return '₹'+n.toLocaleString('en-IN',{maximumFractionDigits:2})}
+function arr(v){return Array.isArray(v)?v.join(', '):(v==null?'':String(v))}
+function mail(v){return v?'<a href="mailto:'+esc(v)+'">'+esc(v)+'</a>':''}
+function tel(v){return v?'<a href="tel:'+esc(String(v).replace(/[^\d+]/g,''))+'">'+esc(v)+'</a>':''}
+function inRange(v,from,to){if(!from&&!to)return true;var d=new Date(v);if(isNaN(d))return false;
+  var ist=new Date(d.getTime()+5.5*3600e3).toISOString().slice(0,10);return (!from||ist>=from)&&(!to||ist<=to)}
+function match(row,q,keys){if(!q)return true;q=q.toLowerCase();return keys.some(function(k){return arr(row[k]).toLowerCase().indexOf(q)>-1})}
+
+async function fetchAll(table,select){                       // all rows, 1000 at a time
+  var out=[],from=0,size=1000;
+  for(;;){
+    var r=await sb.from(table).select(select||'*').order('created_at',{ascending:false}).range(from,from+size-1);
+    if(r.error)throw r.error;
+    out=out.concat(r.data||[]);if(!r.data||r.data.length<size||out.length>=50000)break;from+=size;
+  }
+  return out;
+}
+
+/* ---------- sign in / out ---------- */
+async function boot(){
+  var s=(await sb.auth.getSession()).data.session;
+  if(!s){showLogin();return}
+  var ok=await sb.rpc('is_admin');
+  if(ok.error||ok.data!==true){await sb.auth.signOut();showLogin('This account does not have access to the dashboard.');return}
+  $('who').textContent=s.user.email||'';
+  $('loginView').hidden=true;$('appView').hidden=false;
+  loadAll();
+}
+function showLogin(msg){$('appView').hidden=true;$('loginView').hidden=false;$('loginMsg').textContent=msg||''}
+$('loginForm').addEventListener('submit',async function(e){
+  e.preventDefault();var b=$('loginBtn');b.disabled=true;$('loginMsg').textContent='';
+  var r=await sb.auth.signInWithPassword({email:$('em').value.trim(),password:$('pw').value});
+  b.disabled=false;
+  if(r.error){$('loginMsg').textContent=r.error.message==='Invalid login credentials'?'Wrong email or password.':r.error.message;return}
+  $('pw').value='';boot();
+});
+$('logoutBtn').addEventListener('click',async function(){await sb.auth.signOut();showLogin('')});
+$('refreshBtn').addEventListener('click',loadAll);
+
+/* ---------- load ---------- */
+async function loadAll(){
+  ['rTable','eTable','lTable'].forEach(function(id){$(id).innerHTML='<div class="loading">Loading…</div>'});
+  try{
+    var res=await Promise.all([
+      fetchAll('registrations','id,created_at,full_name,email,mobile_number,preferred_country,course,education_level,form_name,payment_status,amount,currency,registration_number,razorpay_payment_id'),
+      fetchAll('enquiries'),
+      fetchAll('eligibility_submissions'),
+      sb.from('forms').select('form_name,category,is_open,price_paise,seat_limit,event_date'),
+      sb.from('form_registration_summary').select('*')
+    ]);
+    if(res[3].error)throw res[3].error;if(res[4].error)throw res[4].error;
+    DATA.reg=res[0];DATA.enq=res[1];DATA.eli=res[2];DATA.forms=res[3].data||[];DATA.summary=res[4].data||[];
+    $('cReg').textContent=DATA.reg.filter(function(r){return r.payment_status==='paid'}).length;
+    $('cEnq').textContent=DATA.enq.length;$('cEli').textContent=DATA.eli.length;
+    fillFormFilters();renderCards();renderReg();renderEnq();renderEli();
+  }catch(err){
+    console.error(err);
+    var m='<div class="empty">Could not load data: '+esc(err.message||err)+'</div>';
+    ['rTable','eTable','lTable'].forEach(function(id){$(id).innerHTML=m});
+    if(String(err.message||'').match(/JWT|expired/i)){await sb.auth.signOut();showLogin('Your session expired. Please sign in again.')}
+  }
+}
+
+/* ---------- registrations ---------- */
+function fillFormFilters(){
+  var f=$('rForm'),c=$('rCat'),fv=f.value,cv=c.value;
+  var names=DATA.forms.map(function(x){return x.form_name}).sort();
+  var cats=Array.from(new Set(DATA.forms.map(function(x){return x.category}))).sort();
+  f.innerHTML='<option value="">All forms</option>'+names.map(function(n){return '<option>'+esc(n)+'</option>'}).join('');
+  c.innerHTML='<option value="">All types</option>'+cats.map(function(n){return '<option>'+esc(n)+'</option>'}).join('');
+  f.value=fv;c.value=cv;
+}
+function renderCards(){
+  var sel=$('rForm').value;
+  var rows=DATA.summary.slice().sort(function(a,b){return (b.is_open?1:0)-(a.is_open?1:0)||String(a.category).localeCompare(b.category)});
+  $('formCards').innerHTML=rows.map(function(s){
+    return '<button type="button" class="card fc'+(sel===s.form_name?' on':'')+'" data-form="'+esc(s.form_name)+'"><div class="cat">'+esc(s.category)+(s.is_open?'':'<span class="closed">Closed</span>')+'</div><h3>'+esc(s.form_name)+'</h3><div class="nums">'+
+      '<div><b>'+esc(s.paid)+'</b><span>Paid</span></div><div><b>'+esc(s.registrations)+'</b><span>All sign-ups</span></div>'+
+      (s.seats_left==null?'':'<div><b>'+esc(s.seats_left)+'</b><span>Seats left</span></div>')+
+      '<div><b>₹'+Number(s.collected_rupees||0).toLocaleString('en-IN')+'</b><span>Collected</span></div></div></button>'}).join('')||'<div class="empty card">No forms yet.</div>';
+}
+document.getElementById('formCards').addEventListener('click',function(e){var b=e.target.closest('[data-form]');if(!b)return;
+  var f=b.getAttribute('data-form');$('rForm').value=$('rForm').value===f?'':f;renderCards();renderReg()});
+function renderReg(){
+  var form=$('rForm').value,cat=$('rCat').value,st=$('rStatus').value,from=$('rFrom').value,to=$('rTo').value,q=$('rQ').value.trim();
+  var catOf={};DATA.forms.forEach(function(f){catOf[f.form_name]=f.category});
+  VIEW.reg=DATA.reg.filter(function(r){return (!form||r.form_name===form)&&(!cat||catOf[r.form_name]===cat)&&(!st||r.payment_status===st)&&inRange(r.created_at,from,to)&&match(r,q,['full_name','email','mobile_number','registration_number','preferred_country','course'])});
+  var total=VIEW.reg.reduce(function(a,r){return a+(r.payment_status==='paid'?Number(r.amount||0):0)},0);
+  $('rMeta').innerHTML='<b>'+VIEW.reg.length+'</b> registration'+(VIEW.reg.length===1?'':'s')+' · paid total <b>'+rupees(total)+'</b>';
+  $('rTable').innerHTML=VIEW.reg.length?'<table><thead><tr><th>Date (IST)</th><th>Name</th><th>Phone</th><th>Email</th><th>Form</th><th>Payment</th><th>Amount</th><th>Country</th><th>Course</th><th>Level</th><th>Reg. ID</th></tr></thead><tbody>'+
+    VIEW.reg.map(function(r){return '<tr><td class="nw">'+when(r.created_at)+'</td><td class="nw"><b>'+esc(r.full_name)+'</b></td><td class="nw">'+tel(r.mobile_number)+'</td><td>'+mail(r.email)+'</td><td>'+esc(r.form_name)+'</td><td><span class="pill '+esc(r.payment_status)+'">'+esc(r.payment_status)+'</span></td><td class="nw">'+rupees(r.amount)+'</td><td>'+esc(r.preferred_country)+'</td><td>'+esc(r.course)+'</td><td>'+esc(r.education_level)+'</td><td class="nw">'+esc(r.registration_number)+'</td></tr>'}).join('')+'</tbody></table>'
+    :'<div class="empty">No registrations match these filters.</div>';
+}
+['rForm','rCat','rStatus','rFrom','rTo','rQ'].forEach(function(id){$(id).addEventListener('input',function(){if(id==='rForm')renderCards();renderReg()})});
+
+/* ---------- enquiries ---------- */
+function renderEnq(){
+  var src=$('eSrc').value,from=$('eFrom').value,to=$('eTo').value,q=$('eQ').value.trim();
+  VIEW.enq=DATA.enq.filter(function(r){return (!src||r.source===src)&&inRange(r.created_at,from,to)&&match(r,q,['full_name','email','phone','city','destination','course','message'])});
+  $('eMeta').innerHTML='<b>'+VIEW.enq.length+'</b> enquir'+(VIEW.enq.length===1?'y':'ies');
+  $('eTable').innerHTML=VIEW.enq.length?'<table><thead><tr><th>Date (IST)</th><th>Name</th><th>Phone</th><th>Email</th><th>Form</th><th>City</th><th>Destination</th><th>Course</th><th>Intake</th><th>Message</th></tr></thead><tbody>'+
+    VIEW.enq.map(function(r){return '<tr><td class="nw">'+when(r.created_at)+'</td><td class="nw"><b>'+esc(r.full_name)+'</b></td><td class="nw">'+tel(r.phone)+'</td><td>'+mail(r.email)+'</td><td>'+(r.source==='home'?'Home page':r.source==='contact'?'Contact page':esc(r.source))+'</td><td>'+esc(r.city)+'</td><td>'+esc(r.destination)+'</td><td>'+esc(r.course)+'</td><td class="nw">'+esc([r.intake_month,r.intake_year].filter(Boolean).join(' '))+'</td><td class="wrap">'+esc(r.message)+'</td></tr>'}).join('')+'</tbody></table>'
+    :'<div class="empty">No enquiries match these filters.</div>';
+}
+['eSrc','eFrom','eTo','eQ'].forEach(function(id){$(id).addEventListener('input',renderEnq)});
+
+/* ---------- eligibility ---------- */
+function renderEli(){
+  var from=$('lFrom').value,to=$('lTo').value,q=$('lQ').value.trim();
+  VIEW.eli=DATA.eli.filter(function(r){return inRange(r.created_at,from,to)&&match(r,q,['full_name','email','phone','city','degree','budget','preferred_countries','suggested_countries','referral_code'])});
+  $('lMeta').innerHTML='<b>'+VIEW.eli.length+'</b> submission'+(VIEW.eli.length===1?'':'s');
+  $('lTable').innerHTML=VIEW.eli.length?'<table><thead><tr><th>Date (IST)</th><th>Name</th><th>Phone</th><th>Email</th><th>City</th><th>Degree</th><th>Budget</th><th>Preferred countries</th><th>Suggested countries</th><th>Referral</th></tr></thead><tbody>'+
+    VIEW.eli.map(function(r){return '<tr><td class="nw">'+when(r.created_at)+'</td><td class="nw"><b>'+esc(r.full_name)+'</b></td><td class="nw">'+tel(r.phone)+'</td><td>'+mail(r.email)+'</td><td>'+esc(r.city)+'</td><td>'+esc(r.degree)+'</td><td>'+esc(r.budget)+'</td><td>'+esc(arr(r.preferred_countries))+'</td><td>'+esc(arr(r.suggested_countries))+'</td><td>'+esc(r.referral_code)+'</td></tr>'}).join('')+'</tbody></table>'
+    :'<div class="empty">No submissions match these filters.</div>';
+}
+['lFrom','lTo','lQ'].forEach(function(id){$(id).addEventListener('input',renderEli)});
+
+/* ---------- tabs ---------- */
+document.querySelector('.tabs').addEventListener('click',function(e){var b=e.target.closest('[data-tab]');if(!b)return;
+  document.querySelectorAll('.tab').forEach(function(t){t.setAttribute('aria-selected',t===b?'true':'false')});
+  ['reg','enq','eli'].forEach(function(t){$('tab-'+t).hidden=t!==b.getAttribute('data-tab')})});
+
+/* ---------- CSV (exactly what is on screen, after filters) ---------- */
+var COLS={
+  reg:[['Date (IST)',function(r){return r.created_at?fmtD.format(new Date(r.created_at)):''}],['Name','full_name'],['Phone','mobile_number'],['Email','email'],['Form','form_name'],['Payment','payment_status'],['Amount (₹)',function(r){return Number(r.amount||0)/100}],['Country','preferred_country'],['Course','course'],['Level','education_level'],['Registration ID','registration_number'],['Razorpay payment ID','razorpay_payment_id']],
+  enq:[['Date (IST)',function(r){return r.created_at?fmtD.format(new Date(r.created_at)):''}],['Name','full_name'],['Phone','phone'],['Email','email'],['Form','source'],['City','city'],['Destination','destination'],['Course','course'],['Intake month','intake_month'],['Intake year','intake_year'],['Message','message'],['Page','page_url']],
+  eli:[['Date (IST)',function(r){return r.created_at?fmtD.format(new Date(r.created_at)):''}],['Name','full_name'],['Phone','phone'],['Email','email'],['City','city'],['Explore abroad','explore_abroad'],['Degree','degree'],['Budget','budget'],['Preferred countries',function(r){return arr(r.preferred_countries)}],['Suggested countries',function(r){return arr(r.suggested_countries)}],['Referral','referral_code'],['All answers',function(r){return r.answers?JSON.stringify(r.answers):''}]]
+};
+function cell(v){var s=String(v==null?'':v);if(/^[=+\-@\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}
+document.querySelectorAll('[data-export]').forEach(function(b){b.addEventListener('click',function(){
+  var k=b.getAttribute('data-export'),cols=COLS[k],rows=VIEW[k];
+  var csv=[cols.map(function(c){return cell(c[0])}).join(',')].concat(rows.map(function(r){return cols.map(function(c){return cell(typeof c[1]==='function'?c[1](r):r[c[1]])}).join(',')})).join('\r\n');
+  var name={reg:'registrations',enq:'enquiries',eli:'eligibility'}[k]+(k==='reg'&&$('rForm').value?'-'+$('rForm').value.replace(/[^\w]+/g,'-'):'')+'-'+new Date().toISOString().slice(0,10)+'.csv';
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);
+})});
+
+boot();
+})();
+</script>
+</body>
+</html>

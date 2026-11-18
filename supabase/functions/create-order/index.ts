@@ -1,7 +1,9 @@
 // create-order (updated 2026-11-18)
 // What changed:
-//   - the price now comes from the public.forms table (one row per registration form) instead of the
-//     REGISTRATION_AMOUNT_PAISE secret, so every form can have its own price (Workshop ₹1,449, Event ₹100, Webinar ₹50…)
+//   - the price now comes from Supabase instead of the REGISTRATION_AMOUNT_PAISE secret:
+//       public.forms           → one row per form (price, seats, open/closed)
+//       public.form_categories → default price per type (Webinar ₹50, Workshop ₹1,449, Education Fair ₹100)
+//     A new form (not yet in public.forms) is added automatically on its first registration, at its type's price.
 //   - the form must exist and be open; optional seat limit (e.g. 20) is checked against paid registrations
 //   - form_name is saved on the registration and added to the Razorpay order notes
 // Everything else (validation, reCAPTCHA, Razorpay order, registration number, response) works as before.
@@ -82,7 +84,11 @@ Deno.serve(async (req) => {
     const country = String(body.country || "").trim();
     const course = String(body.course || "").trim();
     const level = String(body.level || "").trim();
-    const formName = String(body.form_name || "").trim();
+    const formName = String(body.form_name || "").trim().slice(0, 120);
+    const formCategory = String(body.form_category || "").trim();
+    const formDate = String(body.form_date || "").trim().slice(0, 80);
+    const formTime = String(body.form_time || "").trim().slice(0, 80);
+    const formVenue = String(body.form_venue || "").trim().slice(0, 200);
     const captchaToken = String(body.captchaToken || "").trim();
 
     // ==========================================
@@ -126,7 +132,7 @@ Deno.serve(async (req) => {
     // FIND THE FORM AND ITS PRICE
     // ==========================================
 
-    const { data: form, error: formError } = await supabaseAdmin
+    let { data: form, error: formError } = await supabaseAdmin
       .from("forms")
       .select("form_name, price_paise, seat_limit, is_open")
       .eq("form_name", formName)
@@ -140,12 +146,59 @@ Deno.serve(async (req) => {
       );
     }
 
+    // New form: add it automatically at its type's default price.
+    // (The price always comes from Supabase, never from the browser.)
     if (!form) {
-      console.error("Unknown form_name:", formName);
-      return response(
-        { success: false, error: "This registration form is not available." },
-        400
-      );
+      const { data: category } = await supabaseAdmin
+        .from("form_categories")
+        .select("category, price_paise")
+        .eq("category", formCategory)
+        .maybeSingle();
+
+      if (!category) {
+        console.error("Unknown form and no default price:", formName, formCategory);
+        return response(
+          { success: false, error: "This registration form is not available." },
+          400
+        );
+      }
+
+      const { error: insertFormError } = await supabaseAdmin
+        .from("forms")
+        .upsert(
+          {
+            form_name: formName,
+            category: category.category,
+            price_paise: category.price_paise,
+            event_date: formDate || null,
+            event_time: formTime || null,
+            venue: formVenue || null,
+          },
+          { onConflict: "form_name", ignoreDuplicates: true }
+        );
+
+      if (insertFormError) {
+        console.error("Could not add new form:", insertFormError);
+        return response(
+          { success: false, error: "Something went wrong. Please try again." },
+          500
+        );
+      }
+
+      ({ data: form } = await supabaseAdmin
+        .from("forms")
+        .select("form_name, price_paise, seat_limit, is_open")
+        .eq("form_name", formName)
+        .maybeSingle());
+
+      if (!form) {
+        return response(
+          { success: false, error: "Something went wrong. Please try again." },
+          500
+        );
+      }
+
+      console.log("New form added:", formName, category.category, category.price_paise);
     }
 
     if (!form.is_open) {

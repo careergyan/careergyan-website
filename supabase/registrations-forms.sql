@@ -61,7 +61,25 @@ alter table public.registrations add constraint registrations_form_name_fkey
 create index if not exists registrations_form_name_idx on public.registrations (form_name);
 
 
--- 3. REPORTS -----------------------------------------------------------------------------------------
+-- 3. DEFAULT PRICE PER TYPE ---------------------------------------------------------------------------
+-- New forms need no setup: the first registration on a new page adds its row to public.forms automatically,
+-- at its type's price below. Add a row to public.forms yourself only to set seats, a special price, or to close it.
+create table if not exists public.form_categories (
+  category     text primary key check (category in ('Webinar', 'Workshop', 'Spot Admission', 'Education Fair')),
+  price_paise  integer not null check (price_paise > 0)
+);
+alter table public.form_categories enable row level security;
+
+insert into public.form_categories (category, price_paise) values
+  ('Webinar',          5000),   -- ₹50
+  ('Workshop',       144900),   -- ₹1,449
+  ('Education Fair',  10000)    -- ₹100
+on conflict (category) do update set price_paise = excluded.price_paise;
+-- Spot Admission: no price yet. When decided:
+-- insert into public.form_categories values ('Spot Admission', <paise>) on conflict (category) do update set price_paise = excluded.price_paise;
+
+
+-- 4. REPORTS -----------------------------------------------------------------------------------------
 -- Per form: registrations, paid, seats left, money collected
 create or replace view public.form_registration_summary
 with (security_invoker = true) as
@@ -83,10 +101,11 @@ select * from public.form_registration_summary;
 
 
 -- =====================================================================================================
--- EVERYDAY USE (Table Editor > forms, or SQL)
---   new form    : insert into public.forms (form_name, category, price_paise, event_date, event_time, venue)
---                 values ('IELTS Webinar – 12 Dec', 'Webinar', 5000, 'Saturday, 12 December 2026', '6:00 PM', 'Online');
---                 (the web page for it must send exactly the same form_name)
+-- EVERYDAY USE (Table Editor, or SQL)
+--   new form    : nothing to do. It is added to public.forms automatically on its first registration,
+--                 at its type's price from public.form_categories.
+--   type price  : update public.form_categories set price_paise = 5000 where category = 'Webinar';
+--                 (applies to forms added from now on; existing forms keep their own price in public.forms)
 --   change price: update public.forms set price_paise = 10000 where form_name = 'Study in Europe Event';
 --   close form  : update public.forms set is_open = false where form_name = 'Personality Workshop';
 --   one form    : select * from public.registrations where form_name = 'Personality Workshop' order by created_at;

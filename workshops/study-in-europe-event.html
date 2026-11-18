@@ -678,7 +678,13 @@ function showLegalDocument(kind){var main=document.getElementById('registrationM
       country,
       course,
       level: educationLevel,
-      form_name: 'Study in Europe Event',   // which form this registration came from (saved in the form_name column)
+      // which form this is (saved as form_name). A new form name is added to Supabase automatically,
+      // priced by its type (form_category); date/time/venue appear in the confirmation email.
+      form_name: "Study in Europe Event",
+      form_category: "Education Fair",
+      form_date: "Saturday, 23 January 2027",
+      form_time: "10:00 AM – 5:00 PM",
+      form_venue: "Hyatt Centric, MG Road, Bangalore",
       captchaToken
     };
 
