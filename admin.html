@@ -54,7 +54,10 @@ header .btn:hover{background:rgba(255,255,255,.12);border-color:#fff}
 .fc .cat{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blue)}
 .fc h3{font-size:16px;color:var(--navy);margin:4px 0 12px;letter-spacing:-.01em}
 .fc .nums{display:flex;gap:18px;flex-wrap:wrap}
-.fc .nums div{display:flex;flex-direction:column}
+.fc .nums .num{display:flex;flex-direction:column;border-radius:10px;padding:4px 8px;margin:-4px -8px}
+.fc .nums [data-status]{cursor:pointer}
+.fc .nums [data-status]:hover{background:var(--sky)}
+.fc .nums .nb b{color:var(--warn)}
 .fc .nums b{font-size:22px;color:var(--navy);letter-spacing:-.02em;line-height:1.1}
 .fc .nums span{font-size:12px;color:var(--muted)}
 .fc .closed{font-size:11px;font-weight:700;color:var(--muted);background:var(--bg);border-radius:99px;padding:2px 8px;margin-left:6px;vertical-align:middle}
@@ -73,6 +76,7 @@ tr:hover td{background:#FAFCFF}
 td a{color:var(--blue);text-decoration:none}
 td a:hover{text-decoration:underline}
 td.nw{white-space:nowrap}
+th.sn,td.sn{width:48px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;padding-right:6px}
 td.wrap{min-width:220px;max-width:380px;white-space:pre-wrap}
 .pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700;background:var(--bg);color:var(--muted)}
 .pill.paid{background:#E6F6EE;color:var(--ok)}.pill.pending{background:#FFF5E6;color:var(--warn)}.pill.failed{background:#FDECEC;color:var(--bad)}
@@ -119,7 +123,7 @@ td.wrap{min-width:220px;max-width:380px;white-space:pre-wrap}
       <div class="card bar">
         <div class="f"><label for="rForm">Form</label><select class="in" id="rForm"><option value="">All forms</option></select></div>
         <div class="f"><label for="rCat">Type</label><select class="in" id="rCat"><option value="">All types</option></select></div>
-        <div class="f"><label for="rStatus">Payment</label><select class="in" id="rStatus"><option value="paid">Paid</option><option value="">All</option><option value="pending">Pending</option><option value="failed">Failed</option></select></div>
+        <div class="f"><label for="rStatus">Payment</label><select class="in" id="rStatus"><option value="paid">Paid</option><option value="notpaid">Not paid (follow up)</option><option value="">Everyone</option></select></div>
         <div class="f"><label for="rFrom">From</label><input class="in" id="rFrom" type="date"></div>
         <div class="f"><label for="rTo">To</label><input class="in" id="rTo" type="date"></div>
         <div class="f grow"><label for="rQ">Search</label><input class="in" id="rQ" type="search" placeholder="Name, email, phone, registration ID…"></div>
@@ -233,6 +237,7 @@ async function loadAll(){
 }
 
 /* ---------- registrations ---------- */
+var PAY={paid:'Paid',pending:'Not paid – left payment',failed:'Not paid – payment failed'};
 function fillFormFilters(){
   var f=$('rForm'),c=$('rCat'),fv=f.value,cv=c.value;
   var names=DATA.forms.map(function(x){return x.form_name}).sort();
@@ -246,20 +251,24 @@ function renderCards(){
   var rows=DATA.summary.slice().sort(function(a,b){return (b.is_open?1:0)-(a.is_open?1:0)||String(a.category).localeCompare(b.category)});
   $('formCards').innerHTML=rows.map(function(s){
     return '<button type="button" class="card fc'+(sel===s.form_name?' on':'')+'" data-form="'+esc(s.form_name)+'"><div class="cat">'+esc(s.category)+(s.is_open?'':'<span class="closed">Closed</span>')+'</div><h3>'+esc(s.form_name)+'</h3><div class="nums">'+
-      '<div><b>'+esc(s.paid)+'</b><span>Paid</span></div><div><b>'+esc(s.registrations)+'</b><span>All sign-ups</span></div>'+
-      (s.seats_left==null?'':'<div><b>'+esc(s.seats_left)+'</b><span>Seats left</span></div>')+
-      '<div><b>₹'+Number(s.collected_rupees||0).toLocaleString('en-IN')+'</b><span>Collected</span></div></div></button>'}).join('')||'<div class="empty card">No forms yet.</div>';
+      '<span class="num" data-status="paid"><b>'+esc(s.paid)+'</b><span>Paid</span></span><span class="num nb" data-status="notpaid"><b>'+esc(Number(s.registrations||0)-Number(s.paid||0))+'</b><span>Not paid</span></span>'+
+      (s.seats_left==null?'':'<span class="num st"><b>'+esc(s.seats_left)+'</b><span>Seats left</span></span>')+
+      '<span class="num st"><b>₹'+Number(s.collected_rupees||0).toLocaleString('en-IN')+'</b><span>Collected</span></span></div></button>'}).join('')||'<div class="empty card">No forms yet.</div>';
 }
 document.getElementById('formCards').addEventListener('click',function(e){var b=e.target.closest('[data-form]');if(!b)return;
-  var f=b.getAttribute('data-form');$('rForm').value=$('rForm').value===f?'':f;renderCards();renderReg()});
+  var f=b.getAttribute('data-form'),n=e.target.closest('[data-status]');
+  if(n){$('rForm').value=f;$('rStatus').value=n.getAttribute('data-status')}else{$('rForm').value=$('rForm').value===f?'':f}
+  renderCards();renderReg();$('rMeta').scrollIntoView({behavior:'smooth',block:'start'})});
 function renderReg(){
   var form=$('rForm').value,cat=$('rCat').value,st=$('rStatus').value,from=$('rFrom').value,to=$('rTo').value,q=$('rQ').value.trim();
   var catOf={};DATA.forms.forEach(function(f){catOf[f.form_name]=f.category});
-  VIEW.reg=DATA.reg.filter(function(r){return (!form||r.form_name===form)&&(!cat||catOf[r.form_name]===cat)&&(!st||r.payment_status===st)&&inRange(r.created_at,from,to)&&match(r,q,['full_name','email','mobile_number','registration_number','preferred_country','course'])});
+  VIEW.reg=DATA.reg.filter(function(r){return (!form||r.form_name===form)&&(!cat||catOf[r.form_name]===cat)&&(!st||(st==='notpaid'?r.payment_status!=='paid':r.payment_status===st))&&inRange(r.created_at,from,to)&&match(r,q,['full_name','email','mobile_number','registration_number','preferred_country','course'])});
   var total=VIEW.reg.reduce(function(a,r){return a+(r.payment_status==='paid'?Number(r.amount||0):0)},0);
-  $('rMeta').innerHTML='<b>'+VIEW.reg.length+'</b> registration'+(VIEW.reg.length===1?'':'s')+' · paid total <b>'+rupees(total)+'</b>';
-  $('rTable').innerHTML=VIEW.reg.length?'<table><thead><tr><th>Date (IST)</th><th>Name</th><th>Phone</th><th>Email</th><th>Form</th><th>Payment</th><th>Amount</th><th>Country</th><th>Course</th><th>Level</th><th>Reg. ID</th></tr></thead><tbody>'+
-    VIEW.reg.map(function(r){return '<tr><td class="nw">'+when(r.created_at)+'</td><td class="nw"><b>'+esc(r.full_name)+'</b></td><td class="nw">'+tel(r.mobile_number)+'</td><td>'+mail(r.email)+'</td><td>'+esc(r.form_name)+'</td><td><span class="pill '+esc(r.payment_status)+'">'+esc(r.payment_status)+'</span></td><td class="nw">'+rupees(r.amount)+'</td><td>'+esc(r.preferred_country)+'</td><td>'+esc(r.course)+'</td><td>'+esc(r.education_level)+'</td><td class="nw">'+esc(r.registration_number)+'</td></tr>'}).join('')+'</tbody></table>'
+  $('rMeta').innerHTML=st==='notpaid'
+    ?'<b>'+VIEW.reg.length+'</b> '+(VIEW.reg.length===1?'person':'people')+' filled the form but did not complete payment. Call to follow up.'
+    :'<b>'+VIEW.reg.length+'</b> registration'+(VIEW.reg.length===1?'':'s')+' · paid total <b>'+rupees(total)+'</b>';
+  $('rTable').innerHTML=VIEW.reg.length?'<table><thead><tr><th class="sn">No.</th><th>Date (IST)</th><th>Name</th><th>Phone</th><th>Email</th><th>Form</th><th>Payment</th><th>Amount</th><th>Country</th><th>Course</th><th>Level</th><th>Reg. ID</th></tr></thead><tbody>'+
+    VIEW.reg.map(function(r,i){return '<tr><td class="sn">'+(i+1)+'</td><td class="nw">'+when(r.created_at)+'</td><td class="nw"><b>'+esc(r.full_name)+'</b></td><td class="nw">'+tel(r.mobile_number)+'</td><td>'+mail(r.email)+'</td><td>'+esc(r.form_name)+'</td><td class="nw"><span class="pill '+esc(r.payment_status)+'">'+esc(PAY[r.payment_status]||r.payment_status)+'</span></td><td class="nw">'+rupees(r.amount)+'</td><td>'+esc(r.preferred_country)+'</td><td>'+esc(r.course)+'</td><td>'+esc(r.education_level)+'</td><td class="nw">'+esc(r.registration_number)+'</td></tr>'}).join('')+'</tbody></table>'
     :'<div class="empty">No registrations match these filters.</div>';
 }
 ['rForm','rCat','rStatus','rFrom','rTo','rQ'].forEach(function(id){$(id).addEventListener('input',function(){if(id==='rForm')renderCards();renderReg()})});
@@ -269,8 +278,8 @@ function renderEnq(){
   var src=$('eSrc').value,from=$('eFrom').value,to=$('eTo').value,q=$('eQ').value.trim();
   VIEW.enq=DATA.enq.filter(function(r){return (!src||r.source===src)&&inRange(r.created_at,from,to)&&match(r,q,['full_name','email','phone','city','destination','course','message'])});
   $('eMeta').innerHTML='<b>'+VIEW.enq.length+'</b> enquir'+(VIEW.enq.length===1?'y':'ies');
-  $('eTable').innerHTML=VIEW.enq.length?'<table><thead><tr><th>Date (IST)</th><th>Name</th><th>Phone</th><th>Email</th><th>Form</th><th>City</th><th>Destination</th><th>Course</th><th>Intake</th><th>Message</th></tr></thead><tbody>'+
-    VIEW.enq.map(function(r){return '<tr><td class="nw">'+when(r.created_at)+'</td><td class="nw"><b>'+esc(r.full_name)+'</b></td><td class="nw">'+tel(r.phone)+'</td><td>'+mail(r.email)+'</td><td>'+(r.source==='home'?'Home page':r.source==='contact'?'Contact page':esc(r.source))+'</td><td>'+esc(r.city)+'</td><td>'+esc(r.destination)+'</td><td>'+esc(r.course)+'</td><td class="nw">'+esc([r.intake_month,r.intake_year].filter(Boolean).join(' '))+'</td><td class="wrap">'+esc(r.message)+'</td></tr>'}).join('')+'</tbody></table>'
+  $('eTable').innerHTML=VIEW.enq.length?'<table><thead><tr><th class="sn">No.</th><th>Date (IST)</th><th>Name</th><th>Phone</th><th>Email</th><th>Form</th><th>City</th><th>Destination</th><th>Course</th><th>Intake</th><th>Message</th></tr></thead><tbody>'+
+    VIEW.enq.map(function(r,i){return '<tr><td class="sn">'+(i+1)+'</td><td class="nw">'+when(r.created_at)+'</td><td class="nw"><b>'+esc(r.full_name)+'</b></td><td class="nw">'+tel(r.phone)+'</td><td>'+mail(r.email)+'</td><td>'+(r.source==='home'?'Home page':r.source==='contact'?'Contact page':esc(r.source))+'</td><td>'+esc(r.city)+'</td><td>'+esc(r.destination)+'</td><td>'+esc(r.course)+'</td><td class="nw">'+esc([r.intake_month,r.intake_year].filter(Boolean).join(' '))+'</td><td class="wrap">'+esc(r.message)+'</td></tr>'}).join('')+'</tbody></table>'
     :'<div class="empty">No enquiries match these filters.</div>';
 }
 ['eSrc','eFrom','eTo','eQ'].forEach(function(id){$(id).addEventListener('input',renderEnq)});
@@ -280,8 +289,8 @@ function renderEli(){
   var from=$('lFrom').value,to=$('lTo').value,q=$('lQ').value.trim();
   VIEW.eli=DATA.eli.filter(function(r){return inRange(r.created_at,from,to)&&match(r,q,['full_name','email','phone','city','degree','budget','preferred_countries','suggested_countries','referral_code'])});
   $('lMeta').innerHTML='<b>'+VIEW.eli.length+'</b> submission'+(VIEW.eli.length===1?'':'s');
-  $('lTable').innerHTML=VIEW.eli.length?'<table><thead><tr><th>Date (IST)</th><th>Name</th><th>Phone</th><th>Email</th><th>City</th><th>Degree</th><th>Budget</th><th>Preferred countries</th><th>Suggested countries</th><th>Referral</th></tr></thead><tbody>'+
-    VIEW.eli.map(function(r){return '<tr><td class="nw">'+when(r.created_at)+'</td><td class="nw"><b>'+esc(r.full_name)+'</b></td><td class="nw">'+tel(r.phone)+'</td><td>'+mail(r.email)+'</td><td>'+esc(r.city)+'</td><td>'+esc(r.degree)+'</td><td>'+esc(r.budget)+'</td><td>'+esc(arr(r.preferred_countries))+'</td><td>'+esc(arr(r.suggested_countries))+'</td><td>'+esc(r.referral_code)+'</td></tr>'}).join('')+'</tbody></table>'
+  $('lTable').innerHTML=VIEW.eli.length?'<table><thead><tr><th class="sn">No.</th><th>Date (IST)</th><th>Name</th><th>Phone</th><th>Email</th><th>City</th><th>Degree</th><th>Budget</th><th>Preferred countries</th><th>Suggested countries</th><th>Referral</th></tr></thead><tbody>'+
+    VIEW.eli.map(function(r,i){return '<tr><td class="sn">'+(i+1)+'</td><td class="nw">'+when(r.created_at)+'</td><td class="nw"><b>'+esc(r.full_name)+'</b></td><td class="nw">'+tel(r.phone)+'</td><td>'+mail(r.email)+'</td><td>'+esc(r.city)+'</td><td>'+esc(r.degree)+'</td><td>'+esc(r.budget)+'</td><td>'+esc(arr(r.preferred_countries))+'</td><td>'+esc(arr(r.suggested_countries))+'</td><td>'+esc(r.referral_code)+'</td></tr>'}).join('')+'</tbody></table>'
     :'<div class="empty">No submissions match these filters.</div>';
 }
 ['lFrom','lTo','lQ'].forEach(function(id){$(id).addEventListener('input',renderEli)});
@@ -293,14 +302,14 @@ document.querySelector('.tabs').addEventListener('click',function(e){var b=e.tar
 
 /* ---------- CSV (exactly what is on screen, after filters) ---------- */
 var COLS={
-  reg:[['Date (IST)',function(r){return r.created_at?fmtD.format(new Date(r.created_at)):''}],['Name','full_name'],['Phone','mobile_number'],['Email','email'],['Form','form_name'],['Payment','payment_status'],['Amount (₹)',function(r){return Number(r.amount||0)/100}],['Country','preferred_country'],['Course','course'],['Level','education_level'],['Registration ID','registration_number'],['Razorpay payment ID','razorpay_payment_id']],
-  enq:[['Date (IST)',function(r){return r.created_at?fmtD.format(new Date(r.created_at)):''}],['Name','full_name'],['Phone','phone'],['Email','email'],['Form','source'],['City','city'],['Destination','destination'],['Course','course'],['Intake month','intake_month'],['Intake year','intake_year'],['Message','message'],['Page','page_url']],
-  eli:[['Date (IST)',function(r){return r.created_at?fmtD.format(new Date(r.created_at)):''}],['Name','full_name'],['Phone','phone'],['Email','email'],['City','city'],['Explore abroad','explore_abroad'],['Degree','degree'],['Budget','budget'],['Preferred countries',function(r){return arr(r.preferred_countries)}],['Suggested countries',function(r){return arr(r.suggested_countries)}],['Referral','referral_code'],['All answers',function(r){return r.answers?JSON.stringify(r.answers):''}]]
+  reg:[['No.',null],['Date (IST)',function(r){return r.created_at?fmtD.format(new Date(r.created_at)):''}],['Name','full_name'],['Phone','mobile_number'],['Email','email'],['Form','form_name'],['Payment',function(r){return PAY[r.payment_status]||r.payment_status}],['Amount (₹)',function(r){return Number(r.amount||0)/100}],['Country','preferred_country'],['Course','course'],['Level','education_level'],['Registration ID','registration_number'],['Razorpay payment ID','razorpay_payment_id']],
+  enq:[['No.',null],['Date (IST)',function(r){return r.created_at?fmtD.format(new Date(r.created_at)):''}],['Name','full_name'],['Phone','phone'],['Email','email'],['Form','source'],['City','city'],['Destination','destination'],['Course','course'],['Intake month','intake_month'],['Intake year','intake_year'],['Message','message'],['Page','page_url']],
+  eli:[['No.',null],['Date (IST)',function(r){return r.created_at?fmtD.format(new Date(r.created_at)):''}],['Name','full_name'],['Phone','phone'],['Email','email'],['City','city'],['Explore abroad','explore_abroad'],['Degree','degree'],['Budget','budget'],['Preferred countries',function(r){return arr(r.preferred_countries)}],['Suggested countries',function(r){return arr(r.suggested_countries)}],['Referral','referral_code'],['All answers',function(r){return r.answers?JSON.stringify(r.answers):''}]]
 };
 function cell(v){var s=String(v==null?'':v);if(/^[=+\-@\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}
 document.querySelectorAll('[data-export]').forEach(function(b){b.addEventListener('click',function(){
   var k=b.getAttribute('data-export'),cols=COLS[k],rows=VIEW[k];
-  var csv=[cols.map(function(c){return cell(c[0])}).join(',')].concat(rows.map(function(r){return cols.map(function(c){return cell(typeof c[1]==='function'?c[1](r):r[c[1]])}).join(',')})).join('\r\n');
+  var csv=[cols.map(function(c){return cell(c[0])}).join(',')].concat(rows.map(function(r,i){return cols.map(function(c){return cell(c[1]===null?i+1:typeof c[1]==='function'?c[1](r):r[c[1]])}).join(',')})).join('\r\n');
   var name={reg:'registrations',enq:'enquiries',eli:'eligibility'}[k]+(k==='reg'&&$('rForm').value?'-'+$('rForm').value.replace(/[^\w]+/g,'-'):'')+'-'+new Date().toISOString().slice(0,10)+'.csv';
   var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);
 })});
