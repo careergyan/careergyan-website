@@ -2596,3 +2596,5 @@ a.dl-file{text-decoration:none;color:inherit}
 .up-nav .up-prev .ic{transform:rotate(180deg)}
 @media(max-width:1024px){.up-row>*{flex-basis:calc((100% - 24px)/2)}}
 @media(max-width:640px){.up-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.up-tabs::-webkit-scrollbar{display:none}.up-tabs button{flex:none}.up-row{gap:16px}.up-row>*,.up-panel.two .up-row>*{flex-basis:86%}.up-nav{display:none!important}.up-panel .wk-slide{min-height:0}}
+
+.ev-date span{white-space:nowrap}

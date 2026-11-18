@@ -225,7 +225,7 @@ The web pages send form_name "Personality Workshop" and "Study in Europe Event",
 
 ## Leads dashboard: careergyan.co/admin (2026-11-18)
 
-- `admin.html` (served at /admin): private, read-only dashboard for the marketing team: event registrations (summary card per form with paid / sign-ups / seats left / collected, filters by form, type, payment status, dates, search), enquiries (home + contact forms) and eligibility checker submissions. Every list downloads as CSV (Excel-ready).
+- `admin.html` (served at /admin): private, read-only dashboard for the marketing team: event registrations (summary card per form with Paid / Not paid / Seats left / Collected; click Paid or Not paid to list those people, filters by form, type, payment status, dates, search), enquiries (home + contact forms) and eligibility checker submissions. Every list downloads as CSV (Excel-ready).
 - Not linked anywhere on the site; `noindex`, blocked in robots.txt, not in the sitemap, not cached.
 - Access is enforced by Supabase, not by the page: `supabase/admin-access.sql` lets only users listed in `admin_users` read the data, and nobody can change or delete anything from the dashboard.
 - Add a team member: Supabase > Authentication > Users > Add user (email + password, auto-confirm), then run the `insert into public.admin_users …` line from admin-access.sql with their email. Turn off public sign-ups in Authentication settings.

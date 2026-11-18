@@ -102,6 +102,8 @@
 - Workshops page: filter counts = past events
 - Workshops page: filter cities from the slider events
 - Workshops page: past-events slider (newest first)
+- Date badges: full year
+- Featured date badge: full year
 - New code block (Supabase + eligibility review/results), clearly marked
 - All script-built images decode off the main thread
 
@@ -164,7 +166,7 @@
 +function eventLink(e){return e.href||(e.page?'workshops/workshop-registration.html':'contact.html')}
 @@ -133 +136 @@
 -  return '<article class="ev'+(rv?' rv':'')+'" style="animation-delay:'+(i*.05)+'s;--d:'+(i*.1)+'s"><a class="ev-media" href="'+url+'"><span class="bgblur" style="background-image:url(\''+src+'\')"></span><img src="'+src+'" alt="'+esc(e.t)+'" loading="lazy"><span class="ev-date"><b>'+dt.d+'</b><span>'+dt.m+' '+dt.y.slice(2)+'</span></span></a>'+
-+  return '<article class="ev'+(rv?' rv':'')+'" style="animation-delay:'+(i*.05)+'s;--d:'+(i*.1)+'s"><a class="ev-media" href="'+url+'"><span class="bgblur" style="background-image:url(\''+src+'\')"></span><img decoding="async" src="'+src+'" alt="'+esc(e.t)+'" loading="lazy"><span class="ev-date"><b>'+dt.d+'</b><span>'+dt.m+' '+dt.y.slice(2)+'</span></span></a>'+
++  return '<article class="ev'+(rv?' rv':'')+'" style="animation-delay:'+(i*.05)+'s;--d:'+(i*.1)+'s"><a class="ev-media" href="'+url+'"><span class="bgblur" style="background-image:url(\''+src+'\')"></span><img decoding="async" src="'+src+'" alt="'+esc(e.t)+'" loading="lazy"><span class="ev-date"><b>'+dt.d+'</b><span>'+dt.m+' '+dt.y+'</span></span></a>'+
 @@ -135 +138 @@
 -    '<div class="ev-foot"><span class="city-pill">'+e.city+'</span><a class="link-arrow" href="'+url+'">'+(e.page?'View workshop &amp; register':'Enquire now')+' '+icon('arrow')+'</a></div></div></article>';
 +    '<div class="ev-foot"><span class="city-pill">'+e.city+'</span><a class="link-arrow" href="'+url+'">'+(e.page?'View details &amp; register':'Enquire now')+' '+icon('arrow')+'</a></div></div></article>';
@@ -192,12 +194,12 @@
 -  $('#ev-feature').innerHTML='<article class="ev-feature"><a class="ev-media" href="'+furl+'"><span class="bgblur" style="background-image:url(\''+fsrc+'\')"></span><img src="'+fsrc+'" alt="'+esc(f.t)+'"><span class="ev-date"><b>'+fd.d+'</b><span>'+fd.m+' '+fd.y.slice(2)+'</span></span></a><div class="ev-body"><span class="tag">'+(f.kind||'Latest event')+'</span><h3>'+esc(f.t)+'</h3><div class="ev-meta"><div>'+icon('cal')+'<span>'+f.d+'</span></div><div>'+icon('clock')+'<span>'+f.tm+'</span></div><div>'+icon('pin')+'<span>'+esc(f.l)+'</span></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px"><a class="btn btn-primary" href="'+furl+'">View workshop &amp; register '+icon('arrow')+'</a></div></div></article>';
 -  var cities=['All'].concat(EVENTS.map(function(e){return e.city}).filter(function(c,i,a){return a.indexOf(c)===i}));
 -  $('#ev-filters').innerHTML=cities.map(function(c,i){var n=c==='All'?EVENTS.length:EVENTS.filter(function(e){return e.city===c}).length;return '<button class="'+(i?'':'active')+'" data-city="'+c+'">'+c+' <span style="opacity:.55">'+n+'</span></button>'}).join('');
-+  $('#ev-feature').innerHTML='<article class="ev-feature"><a class="ev-media" href="'+furl+'"><span class="bgblur" style="background-image:url(\''+fsrc+'\')"></span><img decoding="async" src="'+fsrc+'" alt="'+esc(f.t)+'"><span class="ev-date"><b>'+fd.d+'</b><span>'+fd.m+' '+fd.y.slice(2)+'</span></span></a><div class="ev-body"><span class="tag">'+(f.kind||'Latest event')+'</span><h3>'+esc(f.t)+'</h3><div class="ev-meta"><div>'+icon('cal')+'<span>'+f.d+'</span></div><div>'+icon('clock')+'<span>'+f.tm+'</span></div><div>'+icon('pin')+'<span>'+esc(f.l)+'</span></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px"><a class="btn btn-primary" href="'+furl+'">View details &amp; register '+icon('arrow')+'</a></div></div></article>';
++  $('#ev-feature').innerHTML='<article class="ev-feature"><a class="ev-media" href="'+furl+'"><span class="bgblur" style="background-image:url(\''+fsrc+'\')"></span><img decoding="async" src="'+fsrc+'" alt="'+esc(f.t)+'"><span class="ev-date"><b>'+fd.d+'</b><span>'+fd.m+' '+fd.y+'</span></span></a><div class="ev-body"><span class="tag">'+(f.kind||'Latest event')+'</span><h3>'+esc(f.t)+'</h3><div class="ev-meta"><div>'+icon('cal')+'<span>'+f.d+'</span></div><div>'+icon('clock')+'<span>'+f.tm+'</span></div><div>'+icon('pin')+'<span>'+esc(f.l)+'</span></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px"><a class="btn btn-primary" href="'+furl+'">View details &amp; register '+icon('arrow')+'</a></div></div></article>';
 +  var cities=['All'].concat(EVENTS.filter(cgPast).map(function(e){return e.city}).filter(function(c,i,a){return a.indexOf(c)===i}));
 +  $('#ev-filters').innerHTML=cities.map(function(c,i){var EV2=EVENTS.filter(cgPast);var n=c==='All'?EV2.length:EV2.filter(function(e){return e.city===c}).length;return '<button class="'+(i?'':'active')+'" data-city="'+c+'">'+c+' <span style="opacity:.55">'+n+'</span></button>'}).join('');
 @@ -166 +173 @@
 -  $('#ev-fan').innerHTML=EVENTS.slice(0,3).map(function(e,i){var src=fanImages[i],dt=parseDate(e.d);return '<a class="p p'+(i+1)+'" href="'+eventLink(e)+'"><img src="'+src+'" alt="'+esc(e.t)+'"><span class="ev-date"><b>'+dt.d+'</b><span>'+dt.m+' '+dt.y.slice(2)+'</span></span></a>'}).join('');
-+  $('#ev-fan').innerHTML=EVENTS.slice(0,3).map(function(e,i){var src=fanImages[i],dt=parseDate(e.d);return '<a class="p p'+(i+1)+'" href="'+eventLink(e)+'"><img decoding="async" src="'+src+'" alt="'+esc(e.t)+'"><span class="ev-date"><b>'+dt.d+'</b><span>'+dt.m+' '+dt.y.slice(2)+'</span></span></a>'}).join('');
++  $('#ev-fan').innerHTML=EVENTS.slice(0,3).map(function(e,i){var src=fanImages[i],dt=parseDate(e.d);return '<a class="p p'+(i+1)+'" href="'+eventLink(e)+'"><img decoding="async" src="'+src+'" alt="'+esc(e.t)+'"><span class="ev-date"><b>'+dt.d+'</b><span>'+dt.m+' '+dt.y+'</span></span></a>'}).join('');
 @@ -168,0 +176 @@
 +  }
 @@ -169,0 +178 @@
