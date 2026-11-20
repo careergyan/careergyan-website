@@ -4,6 +4,16 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/student-loan",
+      "destination": "/education-loan",
+      "permanent": true
+    },
+    {
+      "source": "/student-loan.html",
+      "destination": "/education-loan",
+      "permanent": true
+    },
+    {
       "source": "/index.php",
       "destination": "/",
       "permanent": true

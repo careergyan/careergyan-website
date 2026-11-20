@@ -909,3 +909,14 @@
 -  var PAGE='workshop-registration.html';
 +  var PAGE='workshops/workshop-registration.html';
 ```
+
+## 2026-11-20 update
+
+- Location pages (Hyderabad, Pune, Bahrain, Davanagere, Germany consultants): the "Membership / Accreditation" strip is replaced by the same "Certified by" strip (ICEF x2, EAIE, NAFSA) that the Bangalore page has. Changed in the generic location template in `assets/js/main.js` and in each page's static HTML.
+- Workshops page, Spot Admission tab: the count is now 1 (the Spot Admission card is always available) and the card shows a photo (`images/content/events/career-gyan-education-fair.png`). Swap the file or the `src` in `main.js` to change the picture.
+- Workshop registration + Study in Europe event forms: Education Level now has Masters, Bachelors, PhD and MBBS. No database change needed (the level is stored as text).
+- Home page "Join our WhatsApp channel" button now opens https://whatsapp.com/channel/0029VbE4B1Z9hXF71VG5VK2v (`WA_CHANNEL_URL` in `main.js` and the button `href` in `index.html`).
+- "Student Loan" renamed to "Education Loan" in the header, mobile menu, footer, page titles, breadcrumbs, FAQ text and URLs. The page is now `education-loan.html` (served at `/education-loan`). `vercel.json` has permanent redirects from `/student-loan` and `/student-loan.html`; the sitemap lists the new URL.
+- Education Loan page: new sections: What is an education loan, key terms, types of loans, secured vs unsecured comparison, types of collateral, eligibility and documents, what to compare before accepting, and FAQs. Styles are at the end of `assets/css/style.css`.
+
+- Education Loan page: new eligibility calculator section (monthly income, loan requirement, existing loan + EMI; eligible = (monthly income - EMI) x 100) with a Name / Contact / Email / Country form. Result is shown beside the form and emailed with the details via Web3Forms (key set as `CG_LOAN_W3F_KEY` in `assets/js/main.js`). Styles at the end of `style.css`.

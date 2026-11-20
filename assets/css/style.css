@@ -2598,3 +2598,43 @@ a.dl-file{text-decoration:none;color:inherit}
 @media(max-width:640px){.up-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.up-tabs::-webkit-scrollbar{display:none}.up-tabs button{flex:none}.up-row{gap:16px}.up-row>*,.up-panel.two .up-row>*{flex-basis:86%}.up-nav{display:none!important}.up-panel .wk-slide{min-height:0}}
 
 .ev-date span{white-space:nowrap}
+
+/* (2026-11-20) Education Loan page: intro text, comparison tables, two-column checklist */
+.el-intro{max-width:860px;margin:0 auto;display:grid;gap:16px;text-align:center}
+.el-intro p{color:var(--muted);font-size:17px;line-height:1.75}
+.el-intro b{color:var(--navy);font-weight:700}
+.el-table{background:#fff;border:1px solid var(--line);border-radius:22px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.el-table table{width:100%;border-collapse:collapse;font-size:15px;min-width:640px}
+.el-table thead th{background:var(--navy);color:#fff;text-align:left;padding:16px 22px;font-weight:700;font-size:14px;letter-spacing:.02em}
+.el-table tbody th,.el-table tbody td{padding:16px 22px;text-align:left;vertical-align:top;border-top:1px solid var(--line);line-height:1.55}
+.el-table tbody th{color:var(--navy);font-weight:700;width:26%}
+.el-table tbody td{color:var(--muted)}
+.el-table tbody tr:nth-child(even){background:#F7F9FD}
+.el-two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.el-two .cg h3{margin-bottom:12px}
+.el-two .faq-ul{color:var(--muted);font-size:15.5px;line-height:1.6;gap:10px}
+@media (max-width:900px){.el-two{grid-template-columns:1fr}.el-intro p{font-size:16px;text-align:left}.el-table tbody th{width:auto}}
+
+/* (2026-11-20) Education Loan page: eligibility calculator */
+.lc-sec{background:linear-gradient(180deg,#fff 0%,var(--sky) 100%)}
+.lc-wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:start;max-width:1120px;margin:0 auto}
+.lc-form h3{font-size:26px;letter-spacing:-.03em;color:var(--navy)}
+.lc-help{margin-top:6px;color:var(--muted);font-size:15px}
+.lc-sub{margin:30px 0 -6px;font-size:16px;color:var(--navy);padding-top:22px;border-top:1px dashed var(--line)}
+.lc-submit{margin-top:26px;width:100%;justify-content:center}
+.lc-consent{margin-top:14px;font-size:13px;color:var(--muted);line-height:1.6}
+.lc-consent a{color:var(--blue);text-decoration:underline}
+.lc-result{position:sticky;top:110px;border-radius:24px;padding:34px 30px;color:#fff;background:linear-gradient(160deg,var(--navy-2),var(--navy-3));box-shadow:var(--shadow)}
+.lc-k{display:block;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-300)}
+.lc-empty{margin-top:12px;color:rgba(255,255,255,.8);line-height:1.7;font-size:15px}
+.lc-big{display:block;margin-top:10px;font-size:clamp(34px,4vw,46px);line-height:1.1;letter-spacing:-.03em;color:#fff}
+.lc-words{display:block;margin-top:4px;font-size:14px;color:var(--gold);font-weight:600}
+.lc-chip{margin-top:18px;padding:12px 14px;border-radius:12px;font-size:14px;line-height:1.6;font-weight:500}
+.lc-chip.ok{background:rgba(52,199,89,.16);color:#C9F5D6}
+.lc-chip.warn{background:rgba(242,179,61,.18);color:#FDE7B6}
+.lc-rows{margin:20px 0 0;border-top:1px solid rgba(255,255,255,.15)}
+.lc-rows>div{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:14px}
+.lc-rows dt{color:rgba(255,255,255,.75)}
+.lc-rows dd{margin:0;font-weight:700;text-align:right;white-space:nowrap}
+.lc-fine{margin-top:16px;font-size:12.5px;color:rgba(255,255,255,.65);line-height:1.6}
+@media(max-width:900px){.lc-wrap{grid-template-columns:1fr}.lc-result{position:static;padding:28px 22px}}
