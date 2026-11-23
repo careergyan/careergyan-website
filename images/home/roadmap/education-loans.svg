@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 800" width="1100" height="800" role="img">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F3478"/><stop offset="1" stop-color="#0B1638"/></linearGradient>
+<radialGradient id="gl" cx=".75" cy=".25" r=".7"><stop offset="0" stop-color="#F5B83D" stop-opacity=".28"/><stop offset="1" stop-color="#F5B83D" stop-opacity="0"/></radialGradient></defs>
+<rect width="1100" height="800" fill="url(#bg)"/><rect width="1100" height="800" fill="url(#gl)"/>
+<g fill="none" stroke="#fff" stroke-opacity=".06" stroke-width="2"><circle cx="900" cy="140" r="260"/><circle cx="900" cy="140" r="180"/><circle cx="160" cy="720" r="220"/></g>
+<g transform="translate(550 430)"><path d="M-230 -30L0 -190L230 -30Z" fill="#fff"/><rect x="-250" y="-30" width="500" height="26" rx="6" fill="#C9D7F2"/>
+<g fill="#E8EEFA"><rect x="-200" y="10" width="48" height="190" rx="8"/><rect x="-100" y="10" width="48" height="190" rx="8"/><rect x="52" y="10" width="48" height="190" rx="8"/><rect x="152" y="10" width="48" height="190" rx="8"/></g>
+<rect x="-270" y="200" width="540" height="34" rx="8" fill="#C9D7F2"/><circle cy="-92" r="34" fill="#F5B83D"/><text y="-79" text-anchor="middle" font-family="Georgia,serif" font-size="44" font-weight="700" fill="#0B1638">₹</text></g>
+<g transform="translate(850 600)"><ellipse rx="86" ry="26" cy="0" fill="#D99A1F"/><rect x="-86" y="-46" width="172" height="46" fill="#F5B83D"/><ellipse rx="86" ry="26" cy="-46" fill="#FFD27A"/><ellipse rx="86" ry="26" cy="-92" fill="#D99A1F"/><rect x="-86" y="-138" width="172" height="46" fill="#F5B83D"/><ellipse rx="86" ry="26" cy="-138" fill="#FFD27A"/></g>
+<g transform="translate(120 120)"><path d="M0 40L110 0L220 40L110 80Z" fill="#F5B83D"/><path d="M40 62v60c40 30 100 30 140 0V62L110 90Z" fill="#fff" fill-opacity=".95"/><path d="M214 44v70" stroke="#F5B83D" stroke-width="7" stroke-linecap="round"/></g></svg>

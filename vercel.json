@@ -342,6 +342,11 @@
       "permanent": true
     },
     {
+      "source": "/study-abroad-consultants-in-slovakia.php",
+      "destination": "/study-abroad-consultants-in-slovakia",
+      "permanent": true
+    },
+    {
       "source": "/abroad-education-consultants-in-pune.php",
       "destination": "/abroad-education-consultants-in-pune",
       "permanent": true
