@@ -1189,7 +1189,7 @@ var SHOW_PAST_EVENT_POPUP=true; // true: if no upcoming event exists, popup show
 var DOWNLOADS={};
 
 /* ---------- footer: office dropdown + dedicated location pages ---------- */
-var OFF_PAGE={bangalore:['abroad-education-consultants-in-bangalore.html','Career Gyan Bangalore'],hyderabad:['abroad-education-consultants-in-hyderabad.html','Career Gyan Hyderabad'],pune:['abroad-education-consultants-in-pune.html','Career Gyan Pune'],davanagere:['abroad-education-consultants-in-davanagere.html','Career Gyan Davanagere'],germany:['study-abroad-consultants-in-germany.html','Career Gyan Germany']};
+var OFF_PAGE={bangalore:['abroad-education-consultants-in-bangalore.html','Career Gyan Bangalore'],hyderabad:['abroad-education-consultants-in-hyderabad.html','Career Gyan Hyderabad'],pune:['abroad-education-consultants-in-pune.html','Career Gyan Pune'],davanagere:['abroad-education-consultants-in-davanagere.html','Career Gyan Davanagere'],germany:['study-abroad-consultants-in-germany.html','Career Gyan Germany'],slovakia:['study-abroad-consultants-in-slovakia.html','Career Gyan Slovakia']};
 function initOffDD(){
   var root=$('#f-offices');if(!root)return;
   var chips=Object.keys(OFF_PAGE).map(function(k){return '<a href="'+OFF_PAGE[k][0]+'">'+icon('link')+OFF_PAGE[k][1]+'</a>'}).join('');
