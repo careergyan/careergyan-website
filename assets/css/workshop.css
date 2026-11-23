@@ -880,3 +880,17 @@ html{scroll-behavior:smooth;}
 .wsp .speaker-card .sp-av{width:96px;height:96px;overflow:hidden;background:#0B1F4B}
 .wsp .speaker-card .sp-av img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
 .wsp .attend-grid{margin:22px 0}
+
+/* Takeaways + countries placed directly under the key details */
+.wsp .hero-copy .attend-grid{margin:22px 0 0;gap:16px}
+.wsp .hero-copy .attend-card{padding:22px 20px}
+.wsp .hero-copy .attend-card h3{font-size:19px;margin-bottom:12px}
+.wsp .eu-countries{margin:20px 0 6px;background:#fff;border:1px solid #E3E9F3;border-radius:16px;padding:20px 22px}
+.wsp .eu-countries h3{font-size:18px;color:#0B1F4B;font-weight:800;margin:0 0 14px}
+.wsp .ec-row{display:flex;flex-wrap:wrap;gap:10px}
+.wsp .ec-chip{display:inline-flex;align-items:center;gap:9px;background:#F4F7FD;border:1px solid #E3E9F3;border-radius:999px;padding:7px 14px 7px 8px;font-weight:700;font-size:14px;color:#0B1F4B}
+.wsp .ec-chip img{width:30px;height:21px;object-fit:cover;border-radius:4px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.wsp .ec-more{display:inline-flex;align-items:center;padding:7px 14px;font-weight:700;font-size:14px;color:#51607F;font-style:italic;background:none;border:1px dashed #B9C5DD;border-radius:999px;cursor:pointer;font-family:inherit}
+.wsp .ec-more:hover,.wsp .ec-more:focus-visible{color:#0B1F4B;border-color:#0B1F4B;background:#F4F7FD}
+.wsp .ec-chip[hidden]{display:none}
+@media(max-width:640px){.wsp .hero-copy .attend-grid{grid-template-columns:1fr}}
