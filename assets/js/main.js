@@ -142,7 +142,7 @@ function eventCard(e,i,rv){
   var dt=parseDate(e.d),src=eventImage(e),url=eventLink(e);
   var place=e.m?'<a href="'+e.m+'" target="_blank" rel="noopener">'+icon('pin')+'<span>'+esc(e.l)+'</span></a>':'<div>'+icon('pin')+'<span>'+esc(e.l)+'</span></div>';
   return '<article class="ev'+(rv?' rv':'')+'" style="animation-delay:'+(i*.05)+'s;--d:'+(i*.1)+'s"><a class="ev-media" href="'+url+'"><span class="bgblur" style="background-image:url(\''+src+'\')"></span><img decoding="async" src="'+src+'" alt="'+esc(e.t)+'" loading="lazy"><span class="ev-date"><b>'+dt.d+'</b><span>'+dt.m+' '+dt.y+'</span></span></a>'+
-    '<div class="ev-body">'+(e.soon?'<span class="tag">Upcoming workshop</span>':'')+'<h3><a href="'+url+'">'+esc(e.t)+'</a></h3><div class="ev-meta"><div>'+icon('cal')+'<span>'+e.d+'</span></div><div>'+icon('clock')+'<span>'+e.tm+'</span></div>'+place+'</div>'+
+    '<div class="ev-body">'+(e.soon?'<span class="tag">Registration opening soon</span>':'')+'<h3><a href="'+url+'">'+esc(e.t)+'</a></h3><div class="ev-meta"><div>'+icon('cal')+'<span>'+e.d+'</span></div><div>'+icon('clock')+'<span>'+e.tm+'</span></div>'+place+'</div>'+
     '<div class="ev-foot"><span class="city-pill">'+e.city+'</span><a class="link-arrow" href="'+url+'">'+(e.soon?'View details':(e.page?'View details &amp; register':'Enquire now'))+' '+icon('arrow')+'</a></div></div></article>';
 }
 

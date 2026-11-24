@@ -894,3 +894,30 @@ html{scroll-behavior:smooth;}
 .wsp .ec-more:hover,.wsp .ec-more:focus-visible{color:#0B1F4B;border-color:#0B1F4B;background:#F4F7FD}
 .wsp .ec-chip[hidden]{display:none}
 @media(max-width:640px){.wsp .hero-copy .attend-grid{grid-template-columns:1fr}}
+
+/* --- registration page: new guide / voucher / inclusions blocks + full-width countries --- */
+.wsp .guide-card,.wsp .inc-card{background:var(--blue-light);border-radius:14px;padding:26px 24px;margin:22px 0 0}
+.wsp .guide-card h3,.wsp .inc-card h3{font-size:20px;color:var(--navy);font-weight:800;margin:0 0 14px}
+.wsp .guide-card ul{list-style:none;margin:0;padding:0}
+.wsp .guide-card li{display:flex;align-items:flex-start;gap:10px;font-size:15px;color:var(--ink);margin-bottom:11px;font-weight:500}
+.wsp .guide-card li:last-child{margin-bottom:0}
+.wsp .voucher-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0 0}
+.wsp .voucher{display:flex;flex-direction:column;gap:6px;background:linear-gradient(180deg,#FFF6E0,#FFFBF0);border:2px solid #F2B33D;border-radius:14px;padding:20px 22px;box-shadow:0 18px 36px -22px rgba(242,179,61,.8)}
+.wsp .voucher .v-k{font-size:15px;font-weight:700;color:#0B1F4B}
+.wsp .voucher .v-amt{font-size:30px;font-weight:800;color:#0B1F4B;font-family:"Poppins",sans-serif}
+.wsp .inc-card{background:#fff;border:1px solid #E3E9F3}
+.wsp .inc-card ol{margin:0;padding:0 0 0 22px}
+.wsp .inc-card li{font-size:15px;color:var(--ink);font-weight:500;margin-bottom:10px;padding-left:4px}
+.wsp .inc-card li:last-child{margin-bottom:0}
+.wsp .eu-full{max-width:1280px;margin:0 auto;padding:0 48px 32px}
+.wsp .eu-full .eu-countries{margin:0;width:100%}
+.wsp .eu-full .ec-row{gap:12px}
+@media(max-width:900px){.wsp .eu-full{padding:0 20px 28px}}
+@media(max-width:640px){.wsp .voucher-row{grid-template-columns:1fr}.wsp .eu-full{padding:0 16px 24px}}
+
+/* larger flags + country names in the full-width countries section */
+.wsp .eu-full .eu-countries h3{font-size:22px;margin-bottom:18px}
+.wsp .eu-full .ec-row{gap:14px}
+.wsp .eu-full .ec-chip{gap:12px;padding:10px 20px 10px 11px;font-size:17px}
+.wsp .eu-full .ec-chip img{width:42px;height:30px;border-radius:5px}
+@media(max-width:640px){.wsp .eu-full .ec-chip{font-size:15px;padding:8px 14px 8px 9px}.wsp .eu-full .ec-chip img{width:36px;height:25px}}
