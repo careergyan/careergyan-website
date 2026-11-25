@@ -959,3 +959,30 @@ html{scroll-behavior:smooth;}
 @media(max-width:560px){.wsp .perks,.wsp .journey,.wsp .photo-strip,.wsp .eu-full{padding-left:16px;padding-right:16px}.wsp .ev-det{grid-template-columns:1fr}.wsp .ev-det .d,.wsp .ev-det .d:nth-child(odd){border-right:0;border-bottom:1px solid #E3E9F3}.wsp .ev-det .d:last-child{border-bottom:0}.wsp .voucher-row{grid-template-columns:1fr}.wsp .guide-card{padding:24px 20px}.wsp .eu-full .ec-row{grid-template-columns:repeat(2,1fr);gap:12px}.wsp .eu-full .ec-chip img{width:60px;height:60px}.wsp .hero-photo img{height:180px}.wsp .ps img{height:160px}}
 
 .wsp .share-row .share-btn{min-width:38px;padding-left:10px;padding-right:10px;width:auto}
+
+/* ===== Mobile polish – registration form & cards (2026-11-25) ===== */
+/* Grid items default to min-width:auto, so the fixed 304px reCAPTCHA iframe stretched the form card past the page margin on 360px phones and off-screen on 320px ones */
+.wsp .hero > *{min-width:0}
+/* "Reserve Your Seat" jumps to the form: keep it clear of the sticky site header */
+.wsp .register-card{scroll-margin-top:90px}
+@media(max-width:600px){
+  /* stacked .row2 fields already have margin-bottom; the extra grid gap made email→mobile look 2x looser than name→email */
+  .wsp .row2{gap:0}
+  /* Education Level: tidy 2x2 grid with 44px tap targets instead of a ragged wrap that orphans "MBBS" */
+  .wsp .radio-group{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px;margin:8px 0 18px}
+  .wsp .radio-group .level-required{grid-column:1 / -1;margin-bottom:2px}
+  .wsp .radio-group label{min-height:44px;gap:10px}
+  .wsp .radio-group input{width:20px;height:20px;flex:0 0 auto}
+  /* speaker card: smaller avatar so the name/title get room */
+  .wsp .speaker-card{gap:14px;padding:16px}
+  .wsp .speaker-card .sp-av{width:72px;height:72px}
+  .wsp .speaker-card h3{font-size:18px}
+  /* share buttons: finger-sized, and allowed to wrap */
+  .wsp .share-row{flex-wrap:wrap}
+  .wsp .share-row .share-btn{height:44px;min-width:44px}
+}
+/* very small phones (≤359px): the 304px reCAPTCHA must still fit inside the card */
+@media(max-width:359px){
+  .wsp .g-recaptcha{transform:scale(.77)}
+  .wsp .captcha-wrap{min-height:62px}
+}
